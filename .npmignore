@@ -1,0 +1,48 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Test files
+*.test.ts
+*.spec.ts
+tests/
+__tests__/
+
+# Development files
+.github/
+docs/
+.vscode/
+.idea/
+
+# Config files
+tsconfig.json
+vitest.config.ts
+.eslintrc.json
+.eslintignore
+.gitignore
+.editorconfig
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+
+# CI/CD
+.github/
+
+# Build artifacts (keep dist/)
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+

@@ -1,0 +1,29 @@
+title: Luminor
+description: Enterprise Hono framework med DDD, Dependency Injection och Drizzle ORM
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Navigation
+navigation:
+  - title: Hem
+    url: /
+  - title: Kom igång
+    url: /getting-started
+  - title: Core
+    url: /core
+  - title: Infrastructure
+    url: /infrastructure
+  - title: Domain & Application
+    url: /domain-application
+  - title: Tutorials
+    url: /tutorials
+  - title: Exempel
+    url: /examples
+
+# GitHub Pages settings
+github: [metadata]
+# baseurl: "/luminor-ts"  # Uncomment if using project pages (username.github.io/repo)
+baseurl: ""  # Use empty string for user/organization pages
+

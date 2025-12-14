@@ -1,3 +1,8 @@
+---
+layout: default
+title: Luminor - Enterprise Hono Framework
+---
+
 # Luminor
 
 **Enterprise Hono framework med DDD, Dependency Injection och Drizzle ORM**
@@ -14,10 +19,14 @@ Luminor är ett kraftfullt och flexibelt ramverk för att bygga enterprise-appli
 - 📝 **Structured logging**
 - 🧪 **Test utilities**
 
-## Installation
+## Snabbstart
 
 ```bash
+# Installera globalt
 npm install -g luminor
+
+# Skapa nytt projekt
+luminor create-app my-project
 ```
 
 Eller använd npx:
@@ -25,26 +34,6 @@ Eller använd npx:
 ```bash
 npx luminor create-app my-project
 ```
-
-## Snabbstart
-
-```bash
-# Skapa nytt projekt
-luminor create-app my-project
-
-cd my-project
-npm install
-npm run dev
-```
-
-## Dokumentation
-
-Fullständig dokumentation finns på: [https://your-username.github.io/luminor-ts](https://your-username.github.io/luminor-ts)
-
-- [Kom igång](https://your-username.github.io/luminor-ts/getting-started)
-- [Core](https://your-username.github.io/luminor-ts/core)
-- [Infrastructure](https://your-username.github.io/luminor-ts/infrastructure)
-- [Tutorials](https://your-username.github.io/luminor-ts/tutorials)
 
 ## Projektstruktur
 
@@ -58,10 +47,14 @@ src/
 └── presentation/    # Presentation layer (Hono routes, controllers)
 ```
 
-## License
+## Nästa steg
 
-MIT
+- [Kom igång](/getting-started) - Installera och skapa ditt första projekt
+- [Core](/core) - Lär dig om DI container och Hono integration
+- [Infrastructure](/infrastructure) - Database, Auth och Logging
+- [Tutorials](/tutorials) - Steg-för-steg guider
 
-## Contributing
+## GitHub
 
-Contributions är välkomna! Öppna en issue eller skicka en pull request.
+[View on GitHub](https://github.com/your-username/luminor-ts)
+
