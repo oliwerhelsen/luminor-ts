@@ -56,4 +56,4 @@ src/
 
 ## GitHub
 
-[View on GitHub](https://github.com/your-username/brewy-ts)
+[View on GitHub](https://github.com/oliwerhelsen/luminor-ts)
