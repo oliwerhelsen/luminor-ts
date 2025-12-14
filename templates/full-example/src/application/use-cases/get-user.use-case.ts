@@ -1,4 +1,4 @@
-import { UseCase } from "brewy";
+import { UseCase, EntityNotFoundException } from "brewy";
 import { injectable } from "tsyringe";
 import { User } from "../../domain/user.entity.js";
 import { UserRepository } from "../../infrastructure/repositories/user.repository.js";
@@ -11,7 +11,7 @@ export class GetUserUseCase implements UseCase<string, User> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
-      throw new Error("User not found");
+      throw new EntityNotFoundException("User", userId);
     }
 
     return user;
