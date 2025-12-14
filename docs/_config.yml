@@ -1,8 +1,13 @@
 title: Luminor
 description: Enterprise Hono framework med DDD, Dependency Injection och Drizzle ORM
 theme: jekyll-theme-minimal
+
+# Repository information (update with your actual repo)
+# Format: username/repository-name
+repository: your-username/luminor-ts
+
+# Plugins
 plugins:
-  - jekyll-feed
   - jekyll-sitemap
 
 # Navigation
@@ -25,5 +30,11 @@ navigation:
 # GitHub Pages settings
 github: [metadata]
 # baseurl: "/luminor-ts"  # Uncomment if using project pages (username.github.io/repo)
-baseurl: ""  # Use empty string for user/organization pages
+baseurl: "" # Use empty string for user/organization pages
 
+# Exclude feed generation to avoid errors
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
