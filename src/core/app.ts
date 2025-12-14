@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { Container } from './container.js';
+import { ExceptionFilter } from './exception-filter.js';
 import type { Context, Env } from 'hono';
 
 export interface AppOptions {
   errorHandler?: (error: Error, c: Context) => Response | Promise<Response>;
   notFoundHandler?: (c: Context) => Response | Promise<Response>;
+  useExceptionFilter?: boolean;
 }
 
 export class AppFactory {
@@ -17,6 +19,11 @@ export class AppFactory {
       
       if (options?.errorHandler) {
         return options.errorHandler(error, c);
+      }
+
+      // Use ExceptionFilter by default
+      if (options?.useExceptionFilter !== false) {
+        return ExceptionFilter.handle(error, c);
       }
 
       return c.json(
