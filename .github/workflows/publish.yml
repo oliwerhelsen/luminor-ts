@@ -46,27 +46,85 @@ jobs:
 
       - name: Run tests
         run: npm test
+        continue-on-error: false
 
       - name: Run lint
         run: npm run lint
+        continue-on-error: false
 
       - name: Build project
         run: npm run build
+        continue-on-error: false
 
-      - name: Bump version (workflow_dispatch)
+      - name: Get current version
+        id: current-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Bump version (workflow_dispatch only)
         if: github.event_name == 'workflow_dispatch'
         run: |
           npm version ${{ github.event.inputs.version }} -m "chore: bump version to %s [skip ci]"
           git push
           git push --tags
 
-      - name: Get version from package.json
-        id: package-version
+      - name: Verify NPM_TOKEN exists
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "❌ NPM_TOKEN secret is not set!"
+            echo "Please add NPM_TOKEN to repository secrets:"
+            echo "Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          else
+            echo "✅ NPM_TOKEN is set"
+          fi
+
+      - name: Check if version already exists on npm
+        id: check-version
+        run: |
+          VERSION="${{ steps.current-version.outputs.version }}"
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          
+          echo "Checking if version $VERSION of $PACKAGE_NAME already exists on npm..."
+          
+          if npm view "$PACKAGE_NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "⚠️ Version $VERSION already exists on npm"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Version $VERSION does not exist on npm, proceeding with publish"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Publish to npm
-        run: npm publish --access public
+        if: steps.check-version.outputs.exists == 'false'
+        run: |
+          echo "Publishing to npm..."
+          npm publish --access public --dry-run
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish failed - version exists
+        if: steps.check-version.outputs.exists == 'true'
+        run: |
+          echo "❌ Cannot publish: Version ${{ steps.current-version.outputs.version }} already exists on npm"
+          echo "Please bump the version first or use a different version"
+          exit 1
+
+      - name: Verify publication
+        if: steps.check-version.outputs.exists == 'false'
+        run: |
+          VERSION="${{ steps.current-version.outputs.version }}"
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          
+          echo "Verifying publication..."
+          sleep 5
+          
+          if npm view "$PACKAGE_NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "✅ Successfully published $PACKAGE_NAME@$VERSION to npm"
+            echo "View at: https://www.npmjs.com/package/$PACKAGE_NAME"
+          else
+            echo "⚠️ Package may not be immediately available, check npm registry"
+          fi
