@@ -43,39 +43,37 @@ export class ${className}RepositoryImpl implements ${className}Repository {
   }
 
   async findById(id: string): Promise<${className} | null> {
-    try {
-      // Implement database query
-      throw new Error('Not implemented');
-    } catch (error) {
-      throw new DatabaseException('Failed to find ${name}', 'findById', error as Error);
-    }
+    // Implement database query
+    // Example:
+    // const result = await this.db.select().from(table).where(eq(table.id, id));
+    // return result[0] ? this.toDomain(result[0]) : null;
+    
+    throw new DatabaseException('Not implemented', 'findById');
   }
 
   async findAll(): Promise<${className}[]> {
-    try {
-      // Implement database query
-      throw new Error('Not implemented');
-    } catch (error) {
-      throw new DatabaseException('Failed to find all ${name}s', 'findAll', error as Error);
-    }
+    // Implement database query
+    // Example:
+    // const results = await this.db.select().from(table);
+    // return results.map(r => this.toDomain(r));
+    
+    throw new DatabaseException('Not implemented', 'findAll');
   }
 
   async save(entity: ${className}): Promise<void> {
-    try {
-      // Implement database insert/update
-      throw new Error('Not implemented');
-    } catch (error) {
-      throw new DatabaseException('Failed to save ${name}', 'save', error as Error);
-    }
+    // Implement database insert/update
+    // Example:
+    // await this.db.insert(table).values(this.toPersistence(entity));
+    
+    throw new DatabaseException('Not implemented', 'save');
   }
 
   async delete(id: string): Promise<void> {
-    try {
-      // Implement database delete
-      throw new Error('Not implemented');
-    } catch (error) {
-      throw new DatabaseException('Failed to delete ${name}', 'delete', error as Error);
-    }
+    // Implement database delete
+    // Example:
+    // await this.db.delete(table).where(eq(table.id, id));
+    
+    throw new DatabaseException('Not implemented', 'delete');
   }
 }
 `;

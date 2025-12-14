@@ -39,21 +39,14 @@ export class ${className}UseCase implements UseCase<${className}Input, ${classNa
   ) {}
 
   async execute(input: ${className}Input): Promise<${className}Output> {
-    try {
-      // Implement use case logic
-      // Example:
-      // const user = await this.userRepository.findById(input.userId);
-      // if (!user) {
-      //   throw new EntityNotFoundException('User', input.userId);
-      // }
+    // Implement use case logic
+    // Example:
+    // const user = await this.userRepository.findById(input.userId);
+    // if (!user) {
+    //   throw new EntityNotFoundException('User', input.userId);
+    // }
 
-      throw new Error('Not implemented');
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new UseCaseException(error.message, '${className}UseCase');
-      }
-      throw error;
-    }
+    throw new UseCaseException('Not implemented', '${className}UseCase');
   }
 }
 `;

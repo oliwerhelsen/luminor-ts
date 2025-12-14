@@ -14,6 +14,22 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
+// Single cleanup interval to prevent memory leaks
+let cleanupInterval: NodeJS.Timeout | null = null;
+
+function startCleanup(windowMs: number): void {
+  if (!cleanupInterval) {
+    cleanupInterval = setInterval(() => {
+      const now = Date.now();
+      for (const [key, entry] of store.entries()) {
+        if (entry.resetTime < now) {
+          store.delete(key);
+        }
+      }
+    }, windowMs);
+  }
+}
+
 /**
  * Rate limiting middleware
  * Limits the number of requests from a client within a time window
@@ -24,15 +40,8 @@ export function rateLimitMiddleware(options?: RateLimitOptions): MiddlewareHandl
   const keyGenerator = options?.keyGenerator || defaultKeyGenerator;
   const handler = options?.handler || defaultHandler;
 
-  // Clean up expired entries periodically
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, entry] of store.entries()) {
-      if (entry.resetTime < now) {
-        store.delete(key);
-      }
-    }
-  }, windowMs);
+  // Start cleanup interval once
+  startCleanup(windowMs);
 
   return async (c: Context, next) => {
     const key = keyGenerator(c);
@@ -67,7 +76,12 @@ export function rateLimitMiddleware(options?: RateLimitOptions): MiddlewareHandl
 
 function defaultKeyGenerator(c: Context): string {
   // Use IP address as key (in production, consider using authenticated user ID)
-  return c.req.header('x-forwarded-for') || c.req.header('x-real-ip') || 'unknown';
+  // Get first IP from x-forwarded-for header (can contain comma-separated list)
+  const forwardedFor = c.req.header('x-forwarded-for');
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0]?.trim() || 'unknown';
+  }
+  return c.req.header('x-real-ip') || 'unknown';
 }
 
 function defaultHandler(c: Context): Response {

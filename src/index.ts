@@ -16,7 +16,7 @@ export { Logger, LogLevel, type LogEntry } from './infrastructure/logging/logger
 export { loggingMiddleware } from './infrastructure/logging/logging.middleware.js';
 
 // Infrastructure - Validation
-export { zodValidator, validateJson, validateQuery, validateParam, validateForm } from './infrastructure/validation/zod-validator.js';
+export { validateJson, validateQuery, validateParam, validateForm } from './infrastructure/validation/zod-validator.js';
 
 // Infrastructure - Middleware
 export { validationMiddleware } from './infrastructure/middleware/validation.middleware.js';

@@ -26,25 +26,20 @@ const userRoutes = new Hono();
 
 // Public route - create user (with Zod validation)
 userRoutes.post("/", validateJson(CreateUserDto), async (c) => {
-  try {
-    const body = c.req.valid('json');
-    const createUserUseCase =
-      Container.get<CreateUserUseCase>("CreateUserUseCase");
-    const user = await createUserUseCase.execute(body);
+  const body = c.req.valid('json');
+  const createUserUseCase =
+    Container.get<CreateUserUseCase>("CreateUserUseCase");
+  const user = await createUserUseCase.execute(body);
 
-    return c.json(
-      {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        createdAt: user.createdAt,
-      },
-      201
-    );
-  } catch (error: any) {
-    // Errors are now handled by ExceptionFilter
-    throw error;
-  }
+  return c.json(
+    {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
+    },
+    201
+  );
 });
 
 // Protected routes
