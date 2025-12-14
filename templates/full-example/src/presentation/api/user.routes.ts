@@ -1,9 +1,10 @@
-import { authMiddleware, Container } from "brewy";
+import { Container, requireAuth, type AuthContext } from "brewy";
 import { Hono } from "hono";
 import { CreateUserUseCase } from "../../application/use-cases/create-user.use-case.js";
 import { GetUserUseCase } from "../../application/use-cases/get-user.use-case.js";
 import { ListUsersUseCase } from "../../application/use-cases/list-users.use-case.js";
 import { UserRepository } from "../../infrastructure/repositories/user.repository.js";
+import { getAuth } from "../../infrastructure/auth/auth.config.js";
 
 // Register dependencies
 Container.register("UserRepository", () => new UserRepository());
@@ -45,9 +46,13 @@ userRoutes.post("/", async (c) => {
 });
 
 // Protected routes
-userRoutes.use("*", authMiddleware());
+const authEnabled = "{{AUTH_ENABLED}}" === "true";
+if (authEnabled) {
+  const auth = await getAuth();
+  userRoutes.use("*", requireAuth(auth));
+}
 
-userRoutes.get("/", async (c) => {
+userRoutes.get("/", async (c: AuthContext) => {
   try {
     const listUsersUseCase =
       Container.get<ListUsersUseCase>("ListUsersUseCase");
@@ -67,7 +72,7 @@ userRoutes.get("/", async (c) => {
   }
 });
 
-userRoutes.get("/:id", async (c) => {
+userRoutes.get("/:id", async (c: AuthContext) => {
   try {
     const id = c.req.param("id");
     const getUserUseCase = Container.get<GetUserUseCase>("GetUserUseCase");

@@ -11,11 +11,13 @@ const __dirname = path.dirname(__filename);
 
 export type DatabaseType = "sqlite" | "postgresql" | "mysql";
 export type ProjectType = "empty" | "full-example";
+export type AuthType = "better-auth" | "none";
 
 interface ProjectConfig {
   projectName: string;
   databaseType: DatabaseType;
   projectType: ProjectType;
+  authType: AuthType;
 }
 
 export async function createApp(projectName?: string): Promise<void> {
@@ -107,12 +109,23 @@ async function promptForConfig(projectName?: string): Promise<ProjectConfig> {
       ],
       default: "empty",
     },
+    {
+      type: "list",
+      name: "authType",
+      message: "Select authentication:",
+      choices: [
+        { name: "Better Auth (recommended)", value: "better-auth" },
+        { name: "None", value: "none" },
+      ],
+      default: "better-auth",
+    },
   ]);
 
   return {
     projectName: answers.projectName,
     databaseType: answers.databaseType,
     projectType: answers.projectType,
+    authType: answers.authType,
   };
 }
 
@@ -133,6 +146,8 @@ async function replacePlaceholders(
     "{{DATABASE_DRIVER}}": getDatabaseDriver(config.databaseType),
     "{{DATABASE_PACKAGE}}": getDatabasePackage(config.databaseType),
     "{{DRIZZLE_IMPORT}}": getDrizzleImport(config.databaseType),
+    "{{AUTH_TYPE}}": config.authType,
+    "{{AUTH_ENABLED}}": config.authType === "better-auth" ? "true" : "false",
   };
 
   for (const file of files) {
