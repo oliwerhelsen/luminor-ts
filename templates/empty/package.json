@@ -13,8 +13,8 @@
   "dependencies": {
     "hono": "^4.0.0",
     "tsyringe": "^4.8.0",
-    "drizzle-orm": "^0.29.0",
-    "drizzle-kit": "^0.20.0",
+    "drizzle-orm": "^0.41.0",
+    "drizzle-kit": "^0.31.4",
     "{{DATABASE_PACKAGE}}": "*",
     "better-auth": "^1.4.7",
     "reflect-metadata": "^0.1.14",

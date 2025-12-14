@@ -31,8 +31,8 @@
   "dependencies": {
     "better-auth": "^1.4.7",
     "chalk": "^5.3.0",
-    "drizzle-kit": "^0.20.0",
-    "drizzle-orm": "^0.29.0",
+    "drizzle-kit": "^0.31.4",
+    "drizzle-orm": "^0.41.0",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
     "hono": "^4.0.0",
@@ -41,9 +41,9 @@
     "tsyringe": "^4.8.0"
   },
   "peerDependencies": {
-    "better-sqlite3": "^9.2.0",
-    "mysql2": "^3.6.0",
-    "pg": "^8.11.0"
+    "better-sqlite3": "^12.4.1",
+    "mysql2": "^3.14.4",
+    "pg": "^8.16.3"
   },
   "peerDependenciesMeta": {
     "mysql2": {
