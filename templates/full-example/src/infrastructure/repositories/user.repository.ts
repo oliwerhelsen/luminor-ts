@@ -1,17 +1,21 @@
-import { injectable } from 'tsyringe';
-import { eq } from 'drizzle-orm';
-import { Repository } from 'luminor';
-import { User } from '../../domain/user.entity.js';
-import { getDatabase } from '../database/database.js';
-import { users } from '../database/schema.js';
+import { Repository } from "brewy";
+import { eq } from "drizzle-orm";
+import { injectable } from "tsyringe";
+import { User } from "../../domain/user.entity.js";
+import { getDatabase } from "../database/database.js";
+import { users } from "../database/schema.js";
 
 @injectable()
 export class UserRepository implements Repository<User> {
   async findById(id: string): Promise<User | null> {
     const db = await getDatabase();
     // Handle both string and number IDs
-    const idValue = '{{DATABASE_TYPE}}' === 'sqlite' ? id : Number(id);
-    const result = await db.select().from(users).where(eq(users.id, idValue as any)).limit(1);
+    const idValue = "{{DATABASE_TYPE}}" === "sqlite" ? id : Number(id);
+    const result = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, idValue as any))
+      .limit(1);
 
     if (result.length === 0) {
       return null;
@@ -23,7 +27,11 @@ export class UserRepository implements Repository<User> {
 
   async findByEmail(email: string): Promise<User | null> {
     const db = await getDatabase();
-    const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    const result = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
 
     if (result.length === 0) {
       return null;
@@ -37,7 +45,9 @@ export class UserRepository implements Repository<User> {
     const db = await getDatabase();
     const results = await db.select().from(users);
 
-    return results.map((row) => new User(row.email, row.name, row.passwordHash, String(row.id)));
+    return results.map(
+      (row) => new User(row.email, row.name, row.passwordHash, String(row.id))
+    );
   }
 
   async save(entity: User): Promise<User> {
@@ -51,30 +61,36 @@ export class UserRepository implements Repository<User> {
     };
 
     // Only include id for SQLite (string), PostgreSQL/MySQL use auto-increment
-    if ('{{DATABASE_TYPE}}' === 'sqlite') {
+    if ("{{DATABASE_TYPE}}" === "sqlite") {
       userData.id = entity.id;
     }
 
-    if ('{{DATABASE_TYPE}}' === 'sqlite') {
-      await db.insert(users).values(userData).onConflictDoUpdate({
-        target: users.id,
-        set: {
-          email: userData.email,
-          name: userData.name,
-          passwordHash: userData.passwordHash,
-          updatedAt: userData.updatedAt,
-        },
-      });
+    if ("{{DATABASE_TYPE}}" === "sqlite") {
+      await db
+        .insert(users)
+        .values(userData)
+        .onConflictDoUpdate({
+          target: users.id,
+          set: {
+            email: userData.email,
+            name: userData.name,
+            passwordHash: userData.passwordHash,
+            updatedAt: userData.updatedAt,
+          },
+        });
     } else {
       // For PostgreSQL/MySQL, check if user exists
       const existing = await this.findById(entity.id);
       if (existing) {
-        await db.update(users).set({
-          email: userData.email,
-          name: userData.name,
-          passwordHash: userData.passwordHash,
-          updatedAt: userData.updatedAt,
-        }).where(eq(users.id, Number(entity.id) as any));
+        await db
+          .update(users)
+          .set({
+            email: userData.email,
+            name: userData.name,
+            passwordHash: userData.passwordHash,
+            updatedAt: userData.updatedAt,
+          })
+          .where(eq(users.id, Number(entity.id) as any));
       } else {
         const result = await db.insert(users).values(userData);
         // Update entity with generated ID for PostgreSQL/MySQL
@@ -89,7 +105,7 @@ export class UserRepository implements Repository<User> {
 
   async delete(id: string): Promise<void> {
     const db = await getDatabase();
-    const idValue = '{{DATABASE_TYPE}}' === 'sqlite' ? id : Number(id);
+    const idValue = "{{DATABASE_TYPE}}" === "sqlite" ? id : Number(id);
     await db.delete(users).where(eq(users.id, idValue as any));
   }
 
@@ -98,4 +114,3 @@ export class UserRepository implements Repository<User> {
     return user !== null;
   }
 }
-

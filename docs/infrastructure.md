@@ -14,11 +14,11 @@ DatabaseFactory creates Drizzle database connections for different database type
 ### SQLite
 
 ```typescript
-import { DatabaseFactory } from 'luminor';
+import { DatabaseFactory } from "brewy";
 
-const db = await DatabaseFactory.create('sqlite', {
+const db = await DatabaseFactory.create("sqlite", {
   sqlite: {
-    filename: './database.sqlite',
+    filename: "./database.sqlite",
   },
 });
 ```
@@ -26,7 +26,7 @@ const db = await DatabaseFactory.create('sqlite', {
 ### PostgreSQL
 
 ```typescript
-const db = await DatabaseFactory.create('postgresql', {
+const db = await DatabaseFactory.create("postgresql", {
   postgresql: {
     connectionString: process.env.DATABASE_URL,
   },
@@ -36,13 +36,13 @@ const db = await DatabaseFactory.create('postgresql', {
 ### MySQL
 
 ```typescript
-const db = await DatabaseFactory.create('mysql', {
+const db = await DatabaseFactory.create("mysql", {
   mysql: {
-    host: 'localhost',
+    host: "localhost",
     port: 3306,
-    user: 'root',
-    password: 'password',
-    database: 'myapp',
+    user: "root",
+    password: "password",
+    database: "myapp",
   },
 });
 ```
@@ -50,29 +50,29 @@ const db = await DatabaseFactory.create('mysql', {
 ### Using with Drizzle Schema
 
 ```typescript
-import { getDatabase } from './infrastructure/database/database.js';
-import { users } from './infrastructure/database/schema.js';
-import { eq } from 'drizzle-orm';
+import { getDatabase } from "./infrastructure/database/database.js";
+import { users } from "./infrastructure/database/schema.js";
+import { eq } from "drizzle-orm";
 
 const db = await getDatabase();
 const allUsers = await db.select().from(users);
-const user = await db.select().from(users).where(eq(users.id, '123')).limit(1);
+const user = await db.select().from(users).where(eq(users.id, "123")).limit(1);
 ```
 
 ## Authentication
 
-Luminor includes JWT-based authentication.
+brewy includes JWT-based authentication.
 
 ### Setup Auth Service
 
 ```typescript
-import { Container } from 'luminor';
-import { AuthService } from 'luminor';
+import { Container } from "brewy";
+import { AuthService } from "brewy";
 
-Container.register('AuthService', () => {
+Container.register("AuthService", () => {
   return new AuthService({
-    secret: process.env.JWT_SECRET || 'your-secret-key',
-    expiresIn: '7d',
+    secret: process.env.JWT_SECRET || "your-secret-key",
+    expiresIn: "7d",
   });
 });
 ```
@@ -80,27 +80,27 @@ Container.register('AuthService', () => {
 ### Generate Token
 
 ```typescript
-import { Container } from 'luminor';
-import { AuthService } from 'luminor';
+import { Container } from "brewy";
+import { AuthService } from "brewy";
 
-const authService = Container.get<AuthService>('AuthService');
+const authService = Container.get<AuthService>("AuthService");
 
 const token = authService.generateToken({
-  userId: '123',
-  email: 'user@example.com',
+  userId: "123",
+  email: "user@example.com",
 });
 ```
 
 ### Protect Routes with Middleware
 
 ```typescript
-import { authMiddleware } from 'luminor';
+import { authMiddleware } from "brewy";
 
 // Protect all routes under /api
-app.use('/api/*', authMiddleware());
+app.use("/api/*", authMiddleware());
 
 // Or protect specific routes
-app.get('/api/users', authMiddleware(), async (c) => {
+app.get("/api/users", authMiddleware(), async (c) => {
   // c.user is available here
   const userId = c.user?.userId;
   return c.json({ userId });
@@ -110,22 +110,22 @@ app.get('/api/users', authMiddleware(), async (c) => {
 ### Login Route Example
 
 ```typescript
-app.post('/api/login', async (c) => {
+app.post("/api/login", async (c) => {
   const { email, password } = await c.req.json();
-  
+
   // Verify user (implement your own logic)
   const user = await userRepository.findByEmail(email);
   if (!user || !verifyPassword(password, user.passwordHash)) {
-    return c.json({ error: 'Invalid credentials' }, 401);
+    return c.json({ error: "Invalid credentials" }, 401);
   }
-  
+
   // Generate token
-  const authService = Container.get<AuthService>('AuthService');
+  const authService = Container.get<AuthService>("AuthService");
   const token = authService.generateToken({
     userId: user.id,
     email: user.email,
   });
-  
+
   return c.json({ token });
 });
 ```
@@ -137,36 +137,37 @@ Structured logging with different log levels.
 ### Setup Logger
 
 ```typescript
-import { Container } from 'luminor';
-import { Logger, LogLevel } from 'luminor';
+import { Container } from "brewy";
+import { Logger, LogLevel } from "brewy";
 
-Container.register('Logger', () => new Logger(LogLevel.INFO));
+Container.register("Logger", () => new Logger(LogLevel.INFO));
 ```
 
 ### Using Logger
 
 ```typescript
-import { Container } from 'luminor';
-import { Logger } from 'luminor';
+import { Container } from "brewy";
+import { Logger } from "brewy";
 
-const logger = Container.get<Logger>('Logger');
+const logger = Container.get<Logger>("Logger");
 
-logger.debug('Debug message', { userId: '123' });
-logger.info('Info message', { action: 'user_created' });
-logger.warn('Warning message', { issue: 'rate_limit' });
-logger.error('Error message', error, { context: 'api' });
+logger.debug("Debug message", { userId: "123" });
+logger.info("Info message", { action: "user_created" });
+logger.warn("Warning message", { issue: "rate_limit" });
+logger.error("Error message", error, { context: "api" });
 ```
 
 ### Request Logging Middleware
 
 ```typescript
-import { loggingMiddleware } from 'luminor';
+import { loggingMiddleware } from "brewy";
 
 // Log all requests
-app.use('*', loggingMiddleware());
+app.use("*", loggingMiddleware());
 ```
 
 This automatically logs:
+
 - Request method and path
 - Response status
 - Request duration
@@ -174,19 +175,19 @@ This automatically logs:
 ### Custom Logging
 
 ```typescript
-app.use('*', async (c, next) => {
-  const logger = Container.get<Logger>('Logger');
+app.use("*", async (c, next) => {
+  const logger = Container.get<Logger>("Logger");
   const start = Date.now();
-  
-  logger.info('Request started', {
+
+  logger.info("Request started", {
     method: c.req.method,
     path: c.req.path,
   });
-  
+
   await next();
-  
+
   const duration = Date.now() - start;
-  logger.info('Request completed', {
+  logger.info("Request completed", {
     status: c.res.status,
     duration: `${duration}ms`,
   });
@@ -196,19 +197,19 @@ app.use('*', async (c, next) => {
 ## Complete Example
 
 ```typescript
-import 'reflect-metadata';
-import { Container } from 'luminor';
-import { AppFactory } from 'luminor';
-import { Logger, LogLevel, loggingMiddleware } from 'luminor';
-import { AuthService } from 'luminor';
-import { getDatabase } from './infrastructure/database/database.js';
+import "reflect-metadata";
+import { Container } from "brewy";
+import { AppFactory } from "brewy";
+import { Logger, LogLevel, loggingMiddleware } from "brewy";
+import { AuthService } from "brewy";
+import { getDatabase } from "./infrastructure/database/database.js";
 
 // Setup DI
-Container.register('Logger', () => new Logger(LogLevel.INFO));
-Container.register('AuthService', () => {
+Container.register("Logger", () => new Logger(LogLevel.INFO));
+Container.register("AuthService", () => {
   return new AuthService({
-    secret: process.env.JWT_SECRET || 'secret',
-    expiresIn: '7d',
+    secret: process.env.JWT_SECRET || "secret",
+    expiresIn: "7d",
   });
 });
 
@@ -219,21 +220,21 @@ await getDatabase();
 const app = AppFactory.create();
 
 // Middleware
-app.use('*', loggingMiddleware());
+app.use("*", loggingMiddleware());
 
 // Routes
-app.get('/', (c) => {
-  return c.json({ message: 'Hello' });
+app.get("/", (c) => {
+  return c.json({ message: "Hello" });
 });
 
-app.post('/api/login', async (c) => {
+app.post("/api/login", async (c) => {
   // Login logic
 });
 
-app.use('/api/*', authMiddleware());
+app.use("/api/*", authMiddleware());
 
-app.get('/api/protected', async (c) => {
-  return c.json({ message: 'Protected route' });
+app.get("/api/protected", async (c) => {
+  return c.json({ message: "Protected route" });
 });
 ```
 

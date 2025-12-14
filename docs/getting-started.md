@@ -3,24 +3,24 @@ layout: default
 title: Getting Started
 ---
 
-# Getting Started with Luminor
+# Getting Started with brewy
 
-This guide shows you how to install Luminor and create your first project.
+This guide shows you how to install brewy and create your first project.
 
 ## Installation
 
 ### Global Installation
 
 ```bash
-npm install -g luminor
+npm install -g brewy
 ```
 
 ### Using with npx (Recommended)
 
-You can also use Luminor directly with npx without installing globally:
+You can also use brewy directly with npx without installing globally:
 
 ```bash
-npx luminor create-app my-project
+npx brewy create-app my-project
 ```
 
 ## Creating a New Project
@@ -34,13 +34,13 @@ When you run `create-app`, you will be asked about:
 ### Example
 
 ```bash
-luminor create-app my-api
+brewy create-app my-api
 ```
 
 You will see:
 
 ```
-🚀 Luminor - Enterprise Hono Framework
+🚀 brewy - Enterprise Hono Framework
 
 ? Project name: my-api
 ? Select database: SQLite (default)
@@ -52,6 +52,7 @@ You will see:
 ### Empty Project
 
 A minimal project structure with:
+
 - Basic DDD structure
 - DI container setup
 - Drizzle configuration
@@ -62,6 +63,7 @@ Perfect for starting from scratch.
 ### Full Example
 
 A complete example application with:
+
 - User entity and repository
 - Use cases (Create, Get, List)
 - API routes with CRUD

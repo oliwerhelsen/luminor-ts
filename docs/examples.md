@@ -5,27 +5,27 @@ title: Examples
 
 # Examples
 
-Practical examples of how to use Luminor in different scenarios.
+Practical examples of how to use brewy in different scenarios.
 
 ## Example 1: Simple CRUD API
 
 ```typescript
-import 'reflect-metadata';
-import { Container } from 'luminor';
-import { AppFactory } from 'luminor';
-import { serve } from '@hono/node-server';
+import "reflect-metadata";
+import { Container } from "brewy";
+import { AppFactory } from "brewy";
+import { serve } from "@hono/node-server";
 
 const app = AppFactory.create();
 
-app.get('/api/users', async (c) => {
+app.get("/api/users", async (c) => {
   // Get users
   return c.json({ users: [] });
 });
 
-app.post('/api/users', async (c) => {
+app.post("/api/users", async (c) => {
   const body = await c.req.json();
   // Create user
-  return c.json({ id: '123', ...body }, 201);
+  return c.json({ id: "123", ...body }, 201);
 });
 
 serve({ fetch: app.fetch, port: 3000 });
@@ -34,37 +34,40 @@ serve({ fetch: app.fetch, port: 3000 });
 ## Example 2: Middleware Chain
 
 ```typescript
-import { loggingMiddleware } from 'luminor';
-import { authMiddleware } from 'luminor';
+import { loggingMiddleware } from "brewy";
+import { authMiddleware } from "brewy";
 
 // Global logging
-app.use('*', loggingMiddleware());
+app.use("*", loggingMiddleware());
 
 // Public routes
-app.get('/public', (c) => c.json({ message: 'Public' }));
+app.get("/public", (c) => c.json({ message: "Public" }));
 
 // Protected routes
-app.use('/api/*', authMiddleware());
-app.get('/api/protected', (c) => c.json({ message: 'Protected' }));
+app.use("/api/*", authMiddleware());
+app.get("/api/protected", (c) => c.json({ message: "Protected" }));
 ```
 
 ## Example 3: Error Handling
 
 ```typescript
-import { AppFactory } from 'luminor';
-import { Logger } from 'luminor';
+import { AppFactory } from "brewy";
+import { Logger } from "brewy";
 
 const app = AppFactory.create({
   errorHandler: (error, c) => {
-    const logger = Container.get<Logger>('Logger');
-    logger.error('Error occurred', error);
-    
-    return c.json({
-      error: {
-        message: error.message,
-        code: 'INTERNAL_ERROR',
+    const logger = Container.get<Logger>("Logger");
+    logger.error("Error occurred", error);
+
+    return c.json(
+      {
+        error: {
+          message: error.message,
+          code: "INTERNAL_ERROR",
+        },
       },
-    }, 500);
+      500
+    );
   },
 });
 ```
@@ -72,22 +75,22 @@ const app = AppFactory.create({
 ## Example 4: Custom Middleware
 
 ```typescript
-app.use('*', async (c, next) => {
+app.use("*", async (c, next) => {
   const start = Date.now();
   await next();
   const duration = Date.now() - start;
-  
-  c.header('X-Response-Time', `${duration}ms`);
+
+  c.header("X-Response-Time", `${duration}ms`);
 });
 ```
 
 ## Example 5: Query Parameters
 
 ```typescript
-app.get('/api/users', async (c) => {
-  const page = c.req.query('page') || '1';
-  const limit = c.req.query('limit') || '10';
-  
+app.get("/api/users", async (c) => {
+  const page = c.req.query("page") || "1";
+  const limit = c.req.query("limit") || "10";
+
   return c.json({
     page: parseInt(page),
     limit: parseInt(limit),
@@ -98,13 +101,13 @@ app.get('/api/users', async (c) => {
 ## Example 6: Request Body Validation
 
 ```typescript
-app.post('/api/users', async (c) => {
+app.post("/api/users", async (c) => {
   const body = await c.req.json();
-  
+
   if (!body.email || !body.name) {
-    return c.json({ error: 'Email and name required' }, 400);
+    return c.json({ error: "Email and name required" }, 400);
   }
-  
+
   // Process...
 });
 ```
@@ -112,23 +115,23 @@ app.post('/api/users', async (c) => {
 ## Example 7: CORS
 
 ```typescript
-app.use('*', async (c, next) => {
+app.use("*", async (c, next) => {
   await next();
-  c.header('Access-Control-Allow-Origin', '*');
-  c.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  c.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  c.header("Access-Control-Allow-Origin", "*");
+  c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  c.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 });
 ```
 
 ## Example 8: File Upload
 
 ```typescript
-app.post('/api/upload', async (c) => {
+app.post("/api/upload", async (c) => {
   const body = await c.req.parseBody();
   const file = body.file as File;
-  
+
   // Process file...
-  return c.json({ message: 'File uploaded' });
+  return c.json({ message: "File uploaded" });
 });
 ```
 
@@ -137,14 +140,14 @@ app.post('/api/upload', async (c) => {
 ```typescript
 const rateLimit = new Map<string, number>();
 
-app.use('*', async (c, next) => {
-  const ip = c.req.header('x-forwarded-for') || 'unknown';
+app.use("*", async (c, next) => {
+  const ip = c.req.header("x-forwarded-for") || "unknown";
   const count = rateLimit.get(ip) || 0;
-  
+
   if (count > 100) {
-    return c.json({ error: 'Rate limit exceeded' }, 429);
+    return c.json({ error: "Rate limit exceeded" }, 429);
   }
-  
+
   rateLimit.set(ip, count + 1);
   await next();
 });
@@ -153,23 +156,26 @@ app.use('*', async (c, next) => {
 ## Example 10: Health Check
 
 ```typescript
-app.get('/health', async (c) => {
+app.get("/health", async (c) => {
   const db = await getDatabase();
-  
+
   try {
     // Test database connection
     await db.select().from(users).limit(1);
-    
+
     return c.json({
-      status: 'healthy',
-      database: 'connected',
+      status: "healthy",
+      database: "connected",
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    return c.json({
-      status: 'unhealthy',
-      database: 'disconnected',
-    }, 503);
+    return c.json(
+      {
+        status: "unhealthy",
+        database: "disconnected",
+      },
+      503
+    );
   }
 });
 ```
