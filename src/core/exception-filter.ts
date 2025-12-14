@@ -33,7 +33,7 @@ export class ExceptionFilter {
       },
     };
 
-    return c.json(errorResponse, status as any);
+    return c.json(errorResponse, status as never);
   }
 
   private static getStatusAndCode(error: Error): { status: number; code: string } {
@@ -70,7 +70,7 @@ export class ExceptionFilter {
 
   private static getDetails(error: Error): unknown {
     if (error instanceof ValidationException) {
-      const details: any = {};
+      const details: Record<string, unknown> = {};
       if (error.field) {
         details.field = error.field;
       }

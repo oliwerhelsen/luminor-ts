@@ -15,5 +15,5 @@ export interface CorsOptions {
  * Configures Cross-Origin Resource Sharing headers
  */
 export function corsMiddleware(options?: CorsOptions): MiddlewareHandler {
-  return honoCors(options as any);
+  return honoCors(options as never);
 }

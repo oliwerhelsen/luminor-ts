@@ -1,4 +1,4 @@
-import type { Context, MiddlewareHandler } from 'hono';
+import type { MiddlewareHandler } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import type { ZodSchema } from 'zod';
 import type { ValidationTargets } from 'hono';

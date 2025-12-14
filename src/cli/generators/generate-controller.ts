@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import {
   validateName,
-  toPascalCase,
   toKebabCase,
   getTargetPath,
   writeFile,
@@ -12,7 +11,6 @@ export async function generateController(name: string | undefined): Promise<void
   name = validateName(name);
   const moduleName = await promptForModule();
 
-  const className = toPascalCase(name);
   const fileName = `${name}.controller.ts`;
   const routePath = toKebabCase(name);
 
