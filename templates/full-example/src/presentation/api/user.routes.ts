@@ -1,10 +1,11 @@
-import { Container, requireAuth, type AuthContext } from "brewy";
+import { Container, requireAuth, validateJson, type AuthContext } from "brewy";
 import { Hono } from "hono";
 import { CreateUserUseCase } from "../../application/use-cases/create-user.use-case.js";
 import { GetUserUseCase } from "../../application/use-cases/get-user.use-case.js";
 import { ListUsersUseCase } from "../../application/use-cases/list-users.use-case.js";
 import { UserRepository } from "../../infrastructure/repositories/user.repository.js";
 import { getAuth } from "../../infrastructure/auth/auth.config.js";
+import { CreateUserDto } from "../../application/dto/create-user.dto.js";
 
 // Register dependencies
 Container.register("UserRepository", () => new UserRepository());
@@ -23,26 +24,22 @@ Container.register("ListUsersUseCase", () => {
 
 const userRoutes = new Hono();
 
-// Public route - create user
-userRoutes.post("/", async (c) => {
-  try {
-    const body = await c.req.json();
-    const createUserUseCase =
-      Container.get<CreateUserUseCase>("CreateUserUseCase");
-    const user = await createUserUseCase.execute(body);
+// Public route - create user (with Zod validation)
+userRoutes.post("/", validateJson(CreateUserDto), async (c) => {
+  const body = c.req.valid('json');
+  const createUserUseCase =
+    Container.get<CreateUserUseCase>("CreateUserUseCase");
+  const user = await createUserUseCase.execute(body);
 
-    return c.json(
-      {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        createdAt: user.createdAt,
-      },
-      201
-    );
-  } catch (error: any) {
-    return c.json({ error: { message: error.message } }, 400);
-  }
+  return c.json(
+    {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
+    },
+    201
+  );
 });
 
 // Protected routes
@@ -53,44 +50,33 @@ if (authEnabled) {
 }
 
 userRoutes.get("/", async (c: AuthContext) => {
-  try {
-    const listUsersUseCase =
-      Container.get<ListUsersUseCase>("ListUsersUseCase");
-    const users = await listUsersUseCase.execute();
+  const listUsersUseCase =
+    Container.get<ListUsersUseCase>("ListUsersUseCase");
+  const users = await listUsersUseCase.execute();
 
-    return c.json(
-      users.map((user) => ({
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      }))
-    );
-  } catch (error: any) {
-    return c.json({ error: { message: error.message } }, 500);
-  }
-});
-
-userRoutes.get("/:id", async (c: AuthContext) => {
-  try {
-    const id = c.req.param("id");
-    const getUserUseCase = Container.get<GetUserUseCase>("GetUserUseCase");
-    const user = await getUserUseCase.execute(id);
-
-    return c.json({
+  return c.json(
+    users.map((user) => ({
       id: user.id,
       email: user.email,
       name: user.name,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-    });
-  } catch (error: any) {
-    if (error.message === "User not found") {
-      return c.json({ error: { message: error.message } }, 404);
-    }
-    return c.json({ error: { message: error.message } }, 500);
-  }
+    }))
+  );
+});
+
+userRoutes.get("/:id", async (c: AuthContext) => {
+  const id = c.req.param("id");
+  const getUserUseCase = Container.get<GetUserUseCase>("GetUserUseCase");
+  const user = await getUserUseCase.execute(id);
+
+  return c.json({
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  });
 });
 
 export { userRoutes };

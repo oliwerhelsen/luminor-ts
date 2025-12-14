@@ -6,6 +6,8 @@ import {
   loggingMiddleware,
   LogLevel,
   betterAuthMiddleware,
+  requestIdMiddleware,
+  corsMiddleware,
 } from "brewy";
 import "reflect-metadata";
 import { getDatabase } from "./infrastructure/database/database.js";
@@ -22,17 +24,16 @@ await getDatabase();
 const authEnabled = "{{AUTH_ENABLED}}" === "true";
 const auth = authEnabled ? await getAuth() : null;
 
-// Create app
-const app = AppFactory.create({
-  errorHandler: (error, c) => {
-    const logger = Container.get<Logger>("Logger");
-    logger.error("Unhandled error", error);
-    return c.json({ error: { message: error.message } }, 500);
-  },
-});
+// Create app with ExceptionFilter enabled by default
+const app = AppFactory.create();
 
 // Middleware
-app.use("*", loggingMiddleware());
+app.use("*", requestIdMiddleware()); // Add request ID tracking
+app.use("*", loggingMiddleware()); // Logging
+app.use("*", corsMiddleware({ // CORS configuration
+  origin: '*',
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+}));
 
 if (auth) {
   // Mount Better Auth endpoints
@@ -52,6 +53,12 @@ app.get("/", (c) => {
     message: "Welcome to brewy!",
     version: "1.0.0",
     auth: authEnabled ? "enabled" : "disabled",
+    features: {
+      exceptionHandling: true,
+      zodValidation: true,
+      openApiDocs: false, // Set to true if using OpenAPI
+      middleware: ['requestId', 'logging', 'cors'],
+    },
   });
 });
 
@@ -60,6 +67,8 @@ console.log(`🚀 Server is running on http://localhost:${port}`);
 if (authEnabled) {
   console.log(`🔐 Authentication enabled at http://localhost:${port}/api/auth`);
 }
+console.log(`📝 Exception handling: enabled`);
+console.log(`✅ Zod validation: enabled`);
 
 serve({
   fetch: app.fetch,
