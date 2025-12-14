@@ -1,12 +1,8 @@
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import type { MySql2Database } from 'drizzle-orm/mysql2';
-import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import type { AnyMySqlDatabase, AnyPgDatabase, AnySQLiteDatabase } from 'drizzle-orm';
-
-export type Database =
-  | AnySQLiteDatabase
-  | AnyPgDatabase
-  | AnyMySqlDatabase;
+// Database type - union of all supported database types
+export type Database = 
+  | ReturnType<typeof import('drizzle-orm/better-sqlite3').drizzle>
+  | ReturnType<typeof import('drizzle-orm/node-postgres').drizzle>
+  | ReturnType<typeof import('drizzle-orm/mysql2').drizzle>;
 
 export interface DatabaseConfig {
   sqlite?: {
@@ -57,7 +53,12 @@ export class DatabaseFactory {
           throw new Error('MySQL config is required');
         }
         const { drizzle } = await import('drizzle-orm/mysql2');
-        const mysql = await import('mysql2/promise');
+        // Dynamic import for mysql2/promise (peer dependency)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const mysql = await import('mysql2/promise').catch(() => {
+          throw new Error('mysql2 package is required for MySQL support. Install it with: npm install mysql2');
+        });
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         const connection = await mysql.createConnection({
           host: config.mysql.host,
           port: config.mysql.port || 3306,
@@ -65,6 +66,7 @@ export class DatabaseFactory {
           password: config.mysql.password,
           database: config.mysql.database,
         });
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return drizzle(connection);
       }
 

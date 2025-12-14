@@ -3,6 +3,7 @@ import { Logger, LogLevel } from './logger.js';
 
 describe('Logger', () => {
   let logger: Logger;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let consoleSpy: any;
 
   beforeEach(() => {

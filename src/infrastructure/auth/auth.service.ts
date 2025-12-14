@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 export interface JwtPayload {
   userId: string;
   email?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -22,8 +23,9 @@ export class AuthService {
 
   generateToken(payload: JwtPayload): string {
     const options: jwt.SignOptions = {};
-    if (this.config.expiresIn) {
-      options.expiresIn = this.config.expiresIn;
+    if (this.config.expiresIn !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (options as any).expiresIn = this.config.expiresIn;
     }
 
     return jwt.sign(payload, this.config.secret, options);
