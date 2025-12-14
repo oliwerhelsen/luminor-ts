@@ -10,7 +10,7 @@ brewy is a powerful and flexible framework for building enterprise applications 
 - 💉 **Dependency Injection** with tsyringe
 - 🗄️ **Drizzle ORM** with support for MySQL, PostgreSQL and SQLite
 - 🏗️ **Domain-Driven Design (DDD)** architecture
-- 🔐 **Authentication** with JWT
+- 🔐 **Authentication** with Better Auth (optional)
 - 📝 **Structured logging**
 - 🧪 **Test utilities**
 
@@ -31,6 +31,11 @@ npx brewy create-app my-project
 ```bash
 # Create new project
 brewy create-app my-project
+
+# Follow the prompts to select:
+# - Database type (SQLite, PostgreSQL, MySQL)
+# - Project type (empty or full-example)
+# - Authentication (Better Auth or none)
 
 cd my-project
 npm install

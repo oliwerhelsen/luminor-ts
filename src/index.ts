@@ -5,9 +5,10 @@ export { AppFactory, type AppOptions } from './core/app.js';
 // Infrastructure - Database
 export { DatabaseFactory, type Database, type DatabaseConfig } from './infrastructure/database/factory.js';
 
-// Infrastructure - Auth
-export { AuthService, type JwtPayload, type AuthConfig } from './infrastructure/auth/auth.service.js';
-export { authMiddleware, type AuthContext } from './infrastructure/auth/auth.middleware.js';
+// Infrastructure - Auth (Better Auth)
+export { createBetterAuth, type BetterAuthConfig, type Auth } from './infrastructure/auth/better-auth.config.js';
+export { betterAuthMiddleware, requireAuth, type SessionContext } from './infrastructure/auth/better-auth.middleware.js';
+export type { AuthContext } from './infrastructure/auth/better-auth.types.js';
 
 // Infrastructure - Logging
 export { Logger, LogLevel, type LogEntry } from './infrastructure/logging/logger.js';

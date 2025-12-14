@@ -29,21 +29,21 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "hono": "^4.0.0",
-    "tsyringe": "^4.8.0",
-    "drizzle-orm": "^0.29.0",
-    "drizzle-kit": "^0.20.0",
-    "inquirer": "^9.2.12",
+    "better-auth": "^1.4.7",
     "chalk": "^5.3.0",
+    "drizzle-kit": "^0.20.0",
+    "drizzle-orm": "^0.29.0",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
-    "jsonwebtoken": "^9.0.2",
-    "reflect-metadata": "^0.1.14"
+    "hono": "^4.0.0",
+    "inquirer": "^9.2.12",
+    "reflect-metadata": "^0.1.14",
+    "tsyringe": "^4.8.0"
   },
   "peerDependencies": {
+    "better-sqlite3": "^9.2.0",
     "mysql2": "^3.6.0",
-    "pg": "^8.11.0",
-    "better-sqlite3": "^9.2.0"
+    "pg": "^8.11.0"
   },
   "peerDependenciesMeta": {
     "mysql2": {
@@ -57,11 +57,10 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "@types/inquirer": "^9.0.3",
-    "@types/fs-extra": "^11.0.4",
-    "@types/jsonwebtoken": "^9.0.5",
     "@types/better-sqlite3": "^7.6.8",
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^20.10.0",
     "@types/pg": "^8.10.9",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
