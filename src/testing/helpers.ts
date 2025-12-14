@@ -1,14 +1,13 @@
 import { Hono } from 'hono';
-import type { Env } from 'hono';
 import { Container } from '../core/container.js';
 
 export interface TestContext {
-  app: Hono<Env>;
+  app: Hono;
   container: typeof Container;
 }
 
-export function createTestApp<E extends Env = Env>(): TestContext {
-  const app = new Hono<E>();
+export function createTestApp(): TestContext {
+  const app = new Hono();
   Container.reset();
 
   return {
@@ -23,6 +22,7 @@ export function mockRequest(
   path: string,
   options?: {
     headers?: Record<string, string>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any;
   }
 ): Request {

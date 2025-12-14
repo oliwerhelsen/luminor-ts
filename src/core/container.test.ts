@@ -37,4 +37,3 @@ describe('Container', () => {
     expect(resolved).toBe(instance);
   });
 });
-

@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { Container } from './container.js';
-import type { Context, Env, Next } from 'hono';
+import type { Context, Env } from 'hono';
 
 export interface AppOptions {
   errorHandler?: (error: Error, c: Context) => Response | Promise<Response>;

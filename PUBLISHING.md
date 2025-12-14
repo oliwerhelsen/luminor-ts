@@ -1,82 +1,82 @@
-# Publicering till npm
+# Publishing to npm
 
-Denna guide beskriver hur man publicerar Luminor till npm.
+This guide describes how to publish Luminor to npm.
 
-## Förutsättningar
+## Prerequisites
 
-1. **npm-konto**
-   - Skapa konto på https://www.npmjs.com/signup
-   - Verifiera email-adressen
+1. **npm account**
+   - Create account at https://www.npmjs.com/signup
+   - Verify email address
 
 2. **npm access token**
-   - Logga in på npm
-   - Gå till: https://www.npmjs.com/settings/[your-username]/tokens
-   - Klicka "Generate New Token"
-   - Välj typ: **Automation** (viktigt för CI/CD)
-   - Kopiera token (den visas bara en gång!)
-   - Lägg till som GitHub Secret:
+   - Log in to npm
+   - Go to: https://www.npmjs.com/settings/[your-username]/tokens
+   - Click "Generate New Token"
+   - Select type: **Automation** (important for CI/CD)
+   - Copy token (it's only shown once!)
+   - Add as GitHub Secret:
      - Repository → Settings → Secrets and variables → Actions
      - New repository secret
-     - Namn: `NPM_TOKEN`
-     - Värde: Din npm token
+     - Name: `NPM_TOKEN`
+     - Value: Your npm token
 
-3. **Paketnamn**
-   - Kontrollera att paketnamnet i `package.json` är unikt
-   - Om `luminor` redan är taget, ändra till t.ex. `@your-username/luminor` eller `luminor-framework`
+3. **Package name**
+   - Check that the package name in `package.json` is unique
+   - If `luminor` is already taken, change to e.g. `@your-username/luminor` or `luminor-framework`
 
-## Publicering
+## Publishing
 
-### Metod 1: Automatisk via GitHub Release
+### Method 1: Automatic via GitHub Release
 
-1. Bumpa versionen lokalt:
+1. Bump version locally:
    ```bash
-   npm version patch  # eller minor, major
+   npm version patch  # or minor, major
    git push
    git push --tags
    ```
 
-2. Skapa GitHub Release:
-   - Gå till repository → Releases → "Create a new release"
-   - Välj tag (t.ex. `v0.1.0`)
-   - Fyll i release notes
-   - Klicka "Publish release"
-   - Workflow körs automatiskt och publicerar till npm
+2. Create GitHub Release:
+   - Go to repository → Releases → "Create a new release"
+   - Select tag (e.g. `v0.1.0`)
+   - Fill in release notes
+   - Click "Publish release"
+   - Workflow runs automatically and publishes to npm
 
-### Metod 2: Manuell via GitHub Actions
+### Method 2: Manual via GitHub Actions
 
-1. Gå till Actions i GitHub
-2. Välj "Publish to npm"
-3. Klicka "Run workflow"
-4. Välj version bump (patch/minor/major)
-5. Klicka "Run workflow"
-6. Workflow kommer att:
-   - Bumpa versionen
-   - Pusha till git
-   - Bygga projektet
-   - Publicera till npm
+1. Go to Actions in GitHub
+2. Select "Publish to npm"
+3. Click "Run workflow"
+4. Select version bump (patch/minor/major)
+5. Click "Run workflow"
+6. Workflow will:
+   - Bump version
+   - Push to git
+   - Build project
+   - Publish to npm
 
-### Metod 3: Lokal publicering (för test)
+### Method 3: Local publishing (for testing)
 
 ```bash
-# Bygg projektet
+# Build project
 npm run build
 
-# Testa publicering (dry-run)
+# Test publishing (dry-run)
 npm publish --dry-run
 
-# Publicera
+# Publish
 npm publish --access public
 ```
 
-## Felsökning
+## Troubleshooting
 
 ### "NPM_TOKEN secret is not set"
-- Lägg till `NPM_TOKEN` i repository secrets
-- Se instruktioner ovan
+- Add `NPM_TOKEN` to repository secrets
+- See instructions above
 
 ### "Version already exists on npm"
-- Versionen finns redan på npm
-- Bumpa versionen först:
+- Version already exists on npm
+- Bump version first:
   ```bash
   npm version patch
   git push
@@ -84,57 +84,56 @@ npm publish --access public
   ```
 
 ### "Package name already taken"
-- Paketnamnet är redan taget
-- Ändra `name` i `package.json` till något unikt
-- T.ex. `@your-username/luminor`
+- Package name is already taken
+- Change `name` in `package.json` to something unique
+- E.g. `@your-username/luminor`
 
 ### "You do not have permission to publish"
-- Du är inte inloggad på npm
-- Kör: `npm login`
-- Eller kontrollera att NPM_TOKEN är korrekt
+- You are not logged in to npm
+- Run: `npm login`
+- Or check that NPM_TOKEN is correct
 
 ### "Invalid token"
-- NPM_TOKEN är fel eller utgången
-- Skapa en ny token och uppdatera secret
+- NPM_TOKEN is wrong or expired
+- Create a new token and update secret
 
-### Workflow körs inte
-- Kontrollera att workflow-filen är korrekt
-- Kontrollera att du pushar till rätt branch
-- Kontrollera Actions tab för felmeddelanden
+### Workflow doesn't run
+- Check that workflow file is correct
+- Check that you're pushing to the right branch
+- Check Actions tab for error messages
 
-## Verifiera publicering
+## Verify Publishing
 
-Efter publicering kan du verifiera:
+After publishing, you can verify:
 
 ```bash
-# Kolla om paketet finns
+# Check if package exists
 npm view luminor
 
-# Kolla specifik version
+# Check specific version
 npm view luminor@0.1.0
 
-# Installera och testa
+# Install and test
 npm install -g luminor
 luminor --version
 ```
 
-Eller besök: https://www.npmjs.com/package/luminor
+Or visit: https://www.npmjs.com/package/luminor
 
-## Versionshantering
+## Version Management
 
-Följ [Semantic Versioning](https://semver.org/):
+Follow [Semantic Versioning](https://semver.org/):
 - **PATCH** (0.1.0 → 0.1.1): Bugfixes
-- **MINOR** (0.1.0 → 0.2.0): Nya features (bakåtkompatibelt)
+- **MINOR** (0.1.0 → 0.2.0): New features (backward compatible)
 - **MAJOR** (0.1.0 → 1.0.0): Breaking changes
 
-## Checklista före publicering
+## Pre-publishing Checklist
 
-- [ ] Alla tester passerar (`npm test`)
-- [ ] Linting passerar (`npm run lint`)
-- [ ] Projektet bygger utan fel (`npm run build`)
-- [ ] Versionen är korrekt i `package.json`
-- [ ] CHANGELOG.md är uppdaterad
-- [ ] README.md är uppdaterad
-- [ ] NPM_TOKEN är satt i GitHub Secrets
-- [ ] Paketnamnet är unikt på npm
-
+- [ ] All tests pass (`npm test`)
+- [ ] Linting passes (`npm run lint`)
+- [ ] Project builds without errors (`npm run build`)
+- [ ] Version is correct in `package.json`
+- [ ] CHANGELOG.md is updated
+- [ ] README.md is updated
+- [ ] NPM_TOKEN is set in GitHub Secrets
+- [ ] Package name is unique on npm

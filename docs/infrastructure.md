@@ -3,13 +3,13 @@ layout: default
 title: Infrastructure
 ---
 
-# Infrastructure - Database, Auth och Logging
+# Infrastructure - Database, Auth and Logging
 
-Infrastructure-lagret hanterar externa tjänster som databaser, autentisering och loggning.
+The Infrastructure layer handles external services such as databases, authentication, and logging.
 
 ## Database Factory
 
-DatabaseFactory skapar Drizzle-databaskopplingar för olika databastyper.
+DatabaseFactory creates Drizzle database connections for different database types.
 
 ### SQLite
 
@@ -47,7 +47,7 @@ const db = await DatabaseFactory.create('mysql', {
 });
 ```
 
-### Använda med Drizzle Schema
+### Using with Drizzle Schema
 
 ```typescript
 import { getDatabase } from './infrastructure/database/database.js';
@@ -61,7 +61,7 @@ const user = await db.select().from(users).where(eq(users.id, '123')).limit(1);
 
 ## Authentication
 
-Luminor inkluderar JWT-baserad autentisering.
+Luminor includes JWT-based authentication.
 
 ### Setup Auth Service
 
@@ -77,7 +77,7 @@ Container.register('AuthService', () => {
 });
 ```
 
-### Generera Token
+### Generate Token
 
 ```typescript
 import { Container } from 'luminor';
@@ -91,35 +91,35 @@ const token = authService.generateToken({
 });
 ```
 
-### Skydda Routes med Middleware
+### Protect Routes with Middleware
 
 ```typescript
 import { authMiddleware } from 'luminor';
 
-// Skydda alla routes under /api
+// Protect all routes under /api
 app.use('/api/*', authMiddleware());
 
-// Eller skydda specifika routes
+// Or protect specific routes
 app.get('/api/users', authMiddleware(), async (c) => {
-  // c.user är tillgänglig här
+  // c.user is available here
   const userId = c.user?.userId;
   return c.json({ userId });
 });
 ```
 
-### Login Route Exempel
+### Login Route Example
 
 ```typescript
 app.post('/api/login', async (c) => {
   const { email, password } = await c.req.json();
   
-  // Verifiera användare (implementera din egen logik)
+  // Verify user (implement your own logic)
   const user = await userRepository.findByEmail(email);
   if (!user || !verifyPassword(password, user.passwordHash)) {
     return c.json({ error: 'Invalid credentials' }, 401);
   }
   
-  // Generera token
+  // Generate token
   const authService = Container.get<AuthService>('AuthService');
   const token = authService.generateToken({
     userId: user.id,
@@ -132,7 +132,7 @@ app.post('/api/login', async (c) => {
 
 ## Logging
 
-Structured logging med olika log levels.
+Structured logging with different log levels.
 
 ### Setup Logger
 
@@ -143,7 +143,7 @@ import { Logger, LogLevel } from 'luminor';
 Container.register('Logger', () => new Logger(LogLevel.INFO));
 ```
 
-### Använda Logger
+### Using Logger
 
 ```typescript
 import { Container } from 'luminor';
@@ -162,16 +162,16 @@ logger.error('Error message', error, { context: 'api' });
 ```typescript
 import { loggingMiddleware } from 'luminor';
 
-// Logga alla requests
+// Log all requests
 app.use('*', loggingMiddleware());
 ```
 
-Detta loggar automatiskt:
-- Request method och path
+This automatically logs:
+- Request method and path
 - Response status
 - Request duration
 
-### Anpassad Logging
+### Custom Logging
 
 ```typescript
 app.use('*', async (c, next) => {
@@ -193,7 +193,7 @@ app.use('*', async (c, next) => {
 });
 ```
 
-## Komplett Exempel
+## Complete Example
 
 ```typescript
 import 'reflect-metadata';
@@ -237,8 +237,7 @@ app.get('/api/protected', async (c) => {
 });
 ```
 
-## Nästa steg
+## Next Steps
 
-- [Domain & Application](/domain-application) - Entities och Use Cases
-- [Tutorials](/tutorials) - Steg-för-steg tutorials
-
+- [Domain & Application](/domain-application) - Entities and Use Cases
+- [Tutorials](/tutorials) - Step-by-step tutorials

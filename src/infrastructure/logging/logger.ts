@@ -11,6 +11,7 @@ export interface LogEntry {
   level: LogLevel;
   message: string;
   timestamp: Date;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context?: Record<string, any>;
   error?: Error;
 }
@@ -23,6 +24,7 @@ export class Logger {
     this.minLevel = minLevel;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private log(level: LogLevel, message: string, context?: Record<string, any>, error?: Error): void {
     if (level < this.minLevel) {
       return;
@@ -44,18 +46,22 @@ export class Logger {
     console.log(`[${timestamp}] ${levelName}: ${message} ${contextStr}${errorStr}`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   debug(message: string, context?: Record<string, any>): void {
     this.log(LogLevel.DEBUG, message, context);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info(message: string, context?: Record<string, any>): void {
     this.log(LogLevel.INFO, message, context);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn(message: string, context?: Record<string, any>): void {
     this.log(LogLevel.WARN, message, context);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error(message: string, error?: Error, context?: Record<string, any>): void {
     this.log(LogLevel.ERROR, message, context, error);
   }
