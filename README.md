@@ -1,16 +1,16 @@
 # Luminor
 
-**Enterprise Hono framework med DDD, Dependency Injection och Drizzle ORM**
+**Enterprise Hono framework with DDD, Dependency Injection, and Drizzle ORM**
 
-Luminor är ett kraftfullt och flexibelt ramverk för att bygga enterprise-applikationer med Hono. Det kombinerar bästa praxis från Domain-Driven Design (DDD), Dependency Injection med tsyringe, och Drizzle ORM för databashantering.
+Luminor is a powerful and flexible framework for building enterprise applications with Hono. It combines best practices from Domain-Driven Design (DDD), Dependency Injection with tsyringe, and Drizzle ORM for database management.
 
-## Funktioner
+## Features
 
-- 🚀 **Hono** som web framework
-- 💉 **Dependency Injection** med tsyringe
-- 🗄️ **Drizzle ORM** med stöd för MySQL, PostgreSQL och SQLite
-- 🏗️ **Domain-Driven Design (DDD)** arkitektur
-- 🔐 **Authentication** med JWT
+- 🚀 **Hono** as web framework
+- 💉 **Dependency Injection** with tsyringe
+- 🗄️ **Drizzle ORM** with support for MySQL, PostgreSQL and SQLite
+- 🏗️ **Domain-Driven Design (DDD)** architecture
+- 🔐 **Authentication** with JWT
 - 📝 **Structured logging**
 - 🧪 **Test utilities**
 
@@ -20,16 +20,16 @@ Luminor är ett kraftfullt och flexibelt ramverk för att bygga enterprise-appli
 npm install -g luminor
 ```
 
-Eller använd npx:
+Or use npx:
 
 ```bash
 npx luminor create-app my-project
 ```
 
-## Snabbstart
+## Quick Start
 
 ```bash
-# Skapa nytt projekt
+# Create new project
 luminor create-app my-project
 
 cd my-project
@@ -37,18 +37,18 @@ npm install
 npm run dev
 ```
 
-## Dokumentation
+## Documentation
 
-Fullständig dokumentation finns på: [https://your-username.github.io/luminor-ts](https://your-username.github.io/luminor-ts)
+Full documentation available at: [https://your-username.github.io/luminor-ts](https://your-username.github.io/luminor-ts)
 
-- [Kom igång](https://your-username.github.io/luminor-ts/getting-started)
+- [Getting Started](https://your-username.github.io/luminor-ts/getting-started)
 - [Core](https://your-username.github.io/luminor-ts/core)
 - [Infrastructure](https://your-username.github.io/luminor-ts/infrastructure)
 - [Tutorials](https://your-username.github.io/luminor-ts/tutorials)
 
-## Projektstruktur
+## Project Structure
 
-Luminor följer DDD-principer och organiserar kod i lager:
+Luminor follows DDD principles and organizes code in layers:
 
 ```
 src/
@@ -64,4 +64,4 @@ MIT
 
 ## Contributing
 
-Contributions är välkomna! Öppna en issue eller skicka en pull request.
+Contributions are welcome! Open an issue or submit a pull request.

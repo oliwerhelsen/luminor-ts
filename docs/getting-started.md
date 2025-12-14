@@ -1,43 +1,43 @@
 ---
 layout: default
-title: Kom igång
+title: Getting Started
 ---
 
-# Kom igång med Luminor
+# Getting Started with Luminor
 
-Denna guide visar hur du installerar Luminor och skapar ditt första projekt.
+This guide shows you how to install Luminor and create your first project.
 
 ## Installation
 
-### Global installation
+### Global Installation
 
 ```bash
 npm install -g luminor
 ```
 
-### Använda med npx (rekommenderat)
+### Using with npx (Recommended)
 
-Du kan också använda Luminor direkt med npx utan att installera globalt:
+You can also use Luminor directly with npx without installing globally:
 
 ```bash
 npx luminor create-app my-project
 ```
 
-## Skapa ett nytt projekt
+## Creating a New Project
 
-När du kör `create-app` kommer du att få frågor om:
+When you run `create-app`, you will be asked about:
 
-1. **Projektnamn** - Namnet på ditt projekt
-2. **Databas** - Välj mellan SQLite (default), PostgreSQL eller MySQL
-3. **Projekttyp** - Välj mellan "Empty project" eller "Full example"
+1. **Project name** - The name of your project
+2. **Database** - Choose between SQLite (default), PostgreSQL, or MySQL
+3. **Project type** - Choose between "Empty project" or "Full example"
 
-### Exempel
+### Example
 
 ```bash
 luminor create-app my-api
 ```
 
-Du kommer att se:
+You will see:
 
 ```
 🚀 Luminor - Enterprise Hono Framework
@@ -47,67 +47,66 @@ Du kommer att se:
 ? Select project type: Empty project
 ```
 
-## Projekttyper
+## Project Types
 
 ### Empty Project
 
-En minimal projektstruktur med:
-- Grundläggande DDD-struktur
+A minimal project structure with:
+- Basic DDD structure
 - DI container setup
-- Drizzle konfiguration
-- Enkel Hono app
+- Drizzle configuration
+- Simple Hono app
 
-Perfekt för att börja från scratch.
+Perfect for starting from scratch.
 
 ### Full Example
 
-En komplett exempel-applikation med:
-- User entity och repository
+A complete example application with:
+- User entity and repository
 - Use cases (Create, Get, List)
-- API routes med CRUD
+- API routes with CRUD
 - Authentication setup
-- Logging konfiguration
-- Test exempel
+- Logging configuration
+- Test examples
 
-Perfekt för att lära dig hur allt fungerar tillsammans.
+Perfect for learning how everything works together.
 
-## Efter installation
+## After Installation
 
-När projektet är skapat:
+Once the project is created:
 
 ```bash
 cd my-api
 npm install
 ```
 
-### Konfigurera miljövariabler
+### Configure Environment Variables
 
-Kopiera `.env.example` till `.env` och uppdatera med dina inställningar:
+Copy `.env.example` to `.env` and update with your settings:
 
 ```bash
 cp .env.example .env
 ```
 
-### Databasmigreringer
+### Database Migrations
 
-För SQLite behöver du inte göra något extra. För PostgreSQL eller MySQL, se till att databasen finns och kör:
+For SQLite, you don't need to do anything extra. For PostgreSQL or MySQL, make sure the database exists and run:
 
 ```bash
 npm run db:generate
 npm run db:migrate
 ```
 
-### Starta utvecklingsservern
+### Start Development Server
 
 ```bash
 npm run dev
 ```
 
-Servern kommer att köra på `http://localhost:3000`.
+The server will run on `http://localhost:3000`.
 
-## Nästa steg
+## Next Steps
 
-- [Core Concepts](/core) - Lär dig om DI container och Hono integration
-- [Infrastructure](/infrastructure) - Konfigurera database, auth och logging
-- [Tutorials](/tutorials) - Steg-för-steg tutorials
-
+- [Core Concepts](/core) - Learn about DI container and Hono integration
+- [Infrastructure](/infrastructure) - Configure database, auth and logging
+- [Tutorials](/tutorials) - Step-by-step tutorials

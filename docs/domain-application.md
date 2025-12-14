@@ -5,15 +5,15 @@ title: Domain & Application
 
 # Domain & Application Layers
 
-Domain-Driven Design (DDD) organiserar kod i lager där Domain innehåller affärslogik och Application koordinerar användningsfall.
+Domain-Driven Design (DDD) organizes code in layers where Domain contains business logic and Application coordinates use cases.
 
 ## Domain Layer
 
-Domain-lagret innehåller entities, value objects och domain services - kärnan i din affärslogik.
+The Domain layer contains entities, value objects, and domain services - the core of your business logic.
 
 ### BaseEntity
 
-Alla entities börver från `BaseEntity` som ger grundläggande funktionalitet:
+All entities extend from `BaseEntity` which provides basic functionality:
 
 ```typescript
 import { BaseEntity } from 'luminor';
@@ -38,12 +38,12 @@ export class User extends BaseEntity {
 
   updateName(name: string): void {
     this._name = name;
-    this.updateTimestamp(); // Uppdaterar updatedAt automatiskt
+    this.updateTimestamp(); // Automatically updates updatedAt
   }
 }
 ```
 
-### Entity Exempel
+### Entity Example
 
 ```typescript
 import { BaseEntity } from 'luminor';
@@ -93,7 +93,7 @@ export class Product extends BaseEntity {
 
 ## Application Layer
 
-Application-lagret innehåller use cases och DTOs som koordinerar domain-logik.
+The Application layer contains use cases and DTOs that coordinate domain logic.
 
 ### Use Case Interface
 
@@ -110,21 +110,21 @@ export class CreateProductUseCase implements UseCase<CreateProductDto, Product> 
   constructor(private productRepository: ProductRepository) {}
 
   async execute(input: CreateProductDto): Promise<Product> {
-    // Validera input
+    // Validate input
     if (input.price <= 0) {
       throw new Error('Price must be positive');
     }
 
-    // Skapa entity
+    // Create entity
     const product = new Product(input.name, input.price, input.stock);
 
-    // Spara
+    // Save
     return await this.productRepository.save(product);
   }
 }
 ```
 
-### Use Case med Dependency Injection
+### Use Case with Dependency Injection
 
 ```typescript
 import { injectable } from 'tsyringe';
@@ -150,7 +150,7 @@ export class GetUserUseCase implements UseCase<string, User> {
 
 ## Repository Pattern
 
-Repositories abstraherar databashantering från domain-lagret.
+Repositories abstract database handling from the domain layer.
 
 ### Repository Interface
 
@@ -233,7 +233,7 @@ export class UserRepository implements Repository<User> {
 }
 ```
 
-## Komplett Exempel
+## Complete Example
 
 ```typescript
 // Domain: src/domain/user.entity.ts
@@ -304,8 +304,7 @@ userRoutes.post('/', async (c) => {
 });
 ```
 
-## Nästa steg
+## Next Steps
 
-- [Tutorials](/tutorials) - Steg-för-steg tutorials
-- [Exempel](/examples) - Fler exempel
-
+- [Tutorials](/tutorials) - Step-by-step tutorials
+- [Examples](/examples) - More examples

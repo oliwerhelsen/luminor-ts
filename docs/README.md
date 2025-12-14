@@ -1,10 +1,10 @@
 # Luminor Documentation
 
-Denna mapp innehåller dokumentationen för Luminor som publiceras på GitHub Pages.
+This directory contains the documentation for Luminor that is published on GitHub Pages.
 
-## Lokal utveckling
+## Local Development
 
-För att köra dokumentationen lokalt:
+To run the documentation locally:
 
 ```bash
 cd docs
@@ -12,15 +12,14 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Dokumentationen kommer att vara tillgänglig på `http://localhost:4000`.
+The documentation will be available at `http://localhost:4000`.
 
 ## GitHub Pages
 
-Dokumentationen publiceras automatiskt till GitHub Pages när ändringar pushas till `main` branch.
+The documentation is automatically published to GitHub Pages when changes are pushed to the `main` branch.
 
-Se till att GitHub Pages är aktiverat i repository settings:
+Make sure GitHub Pages is enabled in repository settings:
 - Settings → Pages
 - Source: Deploy from a branch
 - Branch: main
 - Folder: /docs
-

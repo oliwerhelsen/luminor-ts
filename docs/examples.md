@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Exempel
+title: Examples
 ---
 
-# Exempel
+# Examples
 
-Praktiska exempel på hur man använder Luminor i olika scenarion.
+Practical examples of how to use Luminor in different scenarios.
 
-## Exempel 1: Enkel CRUD API
+## Example 1: Simple CRUD API
 
 ```typescript
 import 'reflect-metadata';
@@ -18,20 +18,20 @@ import { serve } from '@hono/node-server';
 const app = AppFactory.create();
 
 app.get('/api/users', async (c) => {
-  // Hämta användare
+  // Get users
   return c.json({ users: [] });
 });
 
 app.post('/api/users', async (c) => {
   const body = await c.req.json();
-  // Skapa användare
+  // Create user
   return c.json({ id: '123', ...body }, 201);
 });
 
 serve({ fetch: app.fetch, port: 3000 });
 ```
 
-## Exempel 2: Middleware Chain
+## Example 2: Middleware Chain
 
 ```typescript
 import { loggingMiddleware } from 'luminor';
@@ -48,7 +48,7 @@ app.use('/api/*', authMiddleware());
 app.get('/api/protected', (c) => c.json({ message: 'Protected' }));
 ```
 
-## Exempel 3: Error Handling
+## Example 3: Error Handling
 
 ```typescript
 import { AppFactory } from 'luminor';
@@ -69,7 +69,7 @@ const app = AppFactory.create({
 });
 ```
 
-## Exempel 4: Custom Middleware
+## Example 4: Custom Middleware
 
 ```typescript
 app.use('*', async (c, next) => {
@@ -81,7 +81,7 @@ app.use('*', async (c, next) => {
 });
 ```
 
-## Exempel 5: Query Parameters
+## Example 5: Query Parameters
 
 ```typescript
 app.get('/api/users', async (c) => {
@@ -95,7 +95,7 @@ app.get('/api/users', async (c) => {
 });
 ```
 
-## Exempel 6: Request Body Validation
+## Example 6: Request Body Validation
 
 ```typescript
 app.post('/api/users', async (c) => {
@@ -109,7 +109,7 @@ app.post('/api/users', async (c) => {
 });
 ```
 
-## Exempel 7: CORS
+## Example 7: CORS
 
 ```typescript
 app.use('*', async (c, next) => {
@@ -120,7 +120,7 @@ app.use('*', async (c, next) => {
 });
 ```
 
-## Exempel 8: File Upload
+## Example 8: File Upload
 
 ```typescript
 app.post('/api/upload', async (c) => {
@@ -132,7 +132,7 @@ app.post('/api/upload', async (c) => {
 });
 ```
 
-## Exempel 9: Rate Limiting
+## Example 9: Rate Limiting
 
 ```typescript
 const rateLimit = new Map<string, number>();
@@ -150,7 +150,7 @@ app.use('*', async (c, next) => {
 });
 ```
 
-## Exempel 10: Health Check
+## Example 10: Health Check
 
 ```typescript
 app.get('/health', async (c) => {
@@ -173,4 +173,3 @@ app.get('/health', async (c) => {
   }
 });
 ```
-

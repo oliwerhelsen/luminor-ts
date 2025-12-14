@@ -5,39 +5,39 @@ title: Luminor - Enterprise Hono Framework
 
 # Luminor
 
-**Enterprise Hono framework med DDD, Dependency Injection och Drizzle ORM**
+**Enterprise Hono framework with DDD, Dependency Injection, and Drizzle ORM**
 
-Luminor är ett kraftfullt och flexibelt ramverk för att bygga enterprise-applikationer med Hono. Det kombinerar bästa praxis från Domain-Driven Design (DDD), Dependency Injection med tsyringe, och Drizzle ORM för databashantering.
+Luminor is a powerful and flexible framework for building enterprise applications with Hono. It combines best practices from Domain-Driven Design (DDD), Dependency Injection with tsyringe, and Drizzle ORM for database management.
 
-## Funktioner
+## Features
 
-- 🚀 **Hono** som web framework
-- 💉 **Dependency Injection** med tsyringe
-- 🗄️ **Drizzle ORM** med stöd för MySQL, PostgreSQL och SQLite
-- 🏗️ **Domain-Driven Design (DDD)** arkitektur
-- 🔐 **Authentication** med JWT
+- 🚀 **Hono** as web framework
+- 💉 **Dependency Injection** with tsyringe
+- 🗄️ **Drizzle ORM** with support for MySQL, PostgreSQL and SQLite
+- 🏗️ **Domain-Driven Design (DDD)** architecture
+- 🔐 **Authentication** with JWT
 - 📝 **Structured logging**
 - 🧪 **Test utilities**
 
-## Snabbstart
+## Quick Start
 
 ```bash
-# Installera globalt
+# Install globally
 npm install -g luminor
 
-# Skapa nytt projekt
+# Create new project
 luminor create-app my-project
 ```
 
-Eller använd npx:
+Or use npx:
 
 ```bash
 npx luminor create-app my-project
 ```
 
-## Projektstruktur
+## Project Structure
 
-Luminor följer DDD-principer och organiserar kod i lager:
+Luminor follows DDD principles and organizes code in layers:
 
 ```
 src/
@@ -47,14 +47,13 @@ src/
 └── presentation/    # Presentation layer (Hono routes, controllers)
 ```
 
-## Nästa steg
+## Next Steps
 
-- [Kom igång](/getting-started) - Installera och skapa ditt första projekt
-- [Core](/core) - Lär dig om DI container och Hono integration
-- [Infrastructure](/infrastructure) - Database, Auth och Logging
-- [Tutorials](/tutorials) - Steg-för-steg guider
+- [Getting Started](/getting-started) - Install and create your first project
+- [Core](/core) - Learn about DI container and Hono integration
+- [Infrastructure](/infrastructure) - Database, Auth and Logging
+- [Tutorials](/tutorials) - Step-by-step guides
 
 ## GitHub
 
 [View on GitHub](https://github.com/your-username/luminor-ts)
-

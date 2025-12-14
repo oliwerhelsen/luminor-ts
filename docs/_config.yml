@@ -1,5 +1,5 @@
 title: Luminor
-description: Enterprise Hono framework med DDD, Dependency Injection och Drizzle ORM
+description: Enterprise Hono framework with DDD, Dependency Injection and Drizzle ORM
 theme: jekyll-theme-minimal
 
 # Repository information (update with your actual repo)
@@ -12,9 +12,9 @@ plugins:
 
 # Navigation
 navigation:
-  - title: Hem
+  - title: Home
     url: /
-  - title: Kom igång
+  - title: Getting Started
     url: /getting-started
   - title: Core
     url: /core
@@ -24,7 +24,7 @@ navigation:
     url: /domain-application
   - title: Tutorials
     url: /tutorials
-  - title: Exempel
+  - title: Examples
     url: /examples
 
 # GitHub Pages settings

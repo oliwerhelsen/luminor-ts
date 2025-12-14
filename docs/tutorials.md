@@ -5,13 +5,13 @@ title: Tutorials
 
 # Tutorials
 
-Steg-för-steg guider för att bygga applikationer med Luminor.
+Step-by-step guides for building applications with Luminor.
 
-## Tutorial 1: Skapa en enkel Todo API
+## Tutorial 1: Creating a Simple Todo API
 
-I denna tutorial bygger vi en enkel Todo API med CRUD-operationer.
+In this tutorial, we'll build a simple Todo API with CRUD operations.
 
-### Steg 1: Skapa projekt
+### Step 1: Create Project
 
 ```bash
 luminor create-app todo-api
@@ -19,9 +19,9 @@ cd todo-api
 npm install
 ```
 
-### Steg 2: Definiera Domain Entity
+### Step 2: Define Domain Entity
 
-Skapa `src/domain/todo.entity.ts`:
+Create `src/domain/todo.entity.ts`:
 
 ```typescript
 import { BaseEntity } from 'luminor';
@@ -61,9 +61,9 @@ export class Todo extends BaseEntity {
 }
 ```
 
-### Steg 3: Skapa Database Schema
+### Step 3: Create Database Schema
 
-Uppdatera `src/infrastructure/database/schema.ts`:
+Update `src/infrastructure/database/schema.ts`:
 
 ```typescript
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
@@ -77,9 +77,9 @@ export const todos = sqliteTable('todos', {
 });
 ```
 
-### Steg 4: Skapa Repository
+### Step 4: Create Repository
 
-Skapa `src/infrastructure/repositories/todo.repository.ts`:
+Create `src/infrastructure/repositories/todo.repository.ts`:
 
 ```typescript
 import { injectable } from 'tsyringe';
@@ -143,9 +143,9 @@ export class TodoRepository implements Repository<Todo> {
 }
 ```
 
-### Steg 5: Skapa Use Cases
+### Step 5: Create Use Cases
 
-Skapa `src/application/use-cases/create-todo.use-case.ts`:
+Create `src/application/use-cases/create-todo.use-case.ts`:
 
 ```typescript
 import { injectable } from 'tsyringe';
@@ -168,7 +168,7 @@ export class CreateTodoUseCase implements UseCase<CreateTodoDto, Todo> {
 }
 ```
 
-Skapa `src/application/use-cases/list-todos.use-case.ts`:
+Create `src/application/use-cases/list-todos.use-case.ts`:
 
 ```typescript
 import { injectable } from 'tsyringe';
@@ -186,9 +186,9 @@ export class ListTodosUseCase implements UseCase<void, Todo[]> {
 }
 ```
 
-### Steg 6: Skapa API Routes
+### Step 6: Create API Routes
 
-Skapa `src/presentation/api/todo.routes.ts`:
+Create `src/presentation/api/todo.routes.ts`:
 
 ```typescript
 import { Hono } from 'hono';
@@ -247,9 +247,9 @@ todoRoutes.get('/', async (c) => {
 export { todoRoutes };
 ```
 
-### Steg 7: Integrera i App
+### Step 7: Integrate in App
 
-Uppdatera `src/index.ts`:
+Update `src/index.ts`:
 
 ```typescript
 import 'reflect-metadata';
@@ -267,38 +267,38 @@ const port = parseInt(process.env.PORT || '3000');
 serve({ fetch: app.fetch, port });
 ```
 
-### Steg 8: Kör Migrations
+### Step 8: Run Migrations
 
 ```bash
 npm run db:generate
 npm run db:migrate
 ```
 
-### Steg 9: Testa API
+### Step 9: Test API
 
 ```bash
 npm run dev
 ```
 
-Testa med curl:
+Test with curl:
 
 ```bash
-# Skapa todo
+# Create todo
 curl -X POST http://localhost:3000/api/todos \
   -H "Content-Type: application/json" \
   -d '{"title": "Learn Luminor"}'
 
-# Lista todos
+# List todos
 curl http://localhost:3000/api/todos
 ```
 
-## Tutorial 2: Lägga till Authentication
+## Tutorial 2: Adding Authentication
 
-I denna tutorial lägger vi till JWT-autentisering till vår Todo API.
+In this tutorial, we'll add JWT authentication to our Todo API.
 
-### Steg 1: Setup Auth Service
+### Step 1: Setup Auth Service
 
-Uppdatera `src/index.ts`:
+Update `src/index.ts`:
 
 ```typescript
 import { Container } from 'luminor';
@@ -312,9 +312,9 @@ Container.register('AuthService', () => {
 });
 ```
 
-### Steg 2: Skapa Login Route
+### Step 2: Create Login Route
 
-Lägg till i `src/presentation/api/auth.routes.ts`:
+Add to `src/presentation/api/auth.routes.ts`:
 
 ```typescript
 import { Hono } from 'hono';
@@ -327,7 +327,7 @@ const authRoutes = new Hono();
 authRoutes.post('/login', async (c) => {
   const { email, password } = await c.req.json();
   
-  // Hämta användare (implementera din egen verifiering)
+  // Get user (implement your own verification)
   const userRepo = Container.get<UserRepository>('UserRepository');
   const user = await userRepo.findByEmail(email);
   
@@ -347,29 +347,28 @@ authRoutes.post('/login', async (c) => {
 export { authRoutes };
 ```
 
-### Steg 3: Skydda Todo Routes
+### Step 3: Protect Todo Routes
 
-Uppdatera `src/presentation/api/todo.routes.ts`:
+Update `src/presentation/api/todo.routes.ts`:
 
 ```typescript
 import { authMiddleware } from 'luminor';
 
-// Skydda alla routes
+// Protect all routes
 todoRoutes.use('*', authMiddleware());
 
-// Nu kräver alla routes authentication
+// Now all routes require authentication
 todoRoutes.post('/', async (c) => {
-  // c.user är tillgänglig här
+  // c.user is available here
   const userId = c.user?.userId;
   // ...
 });
 ```
 
-## Ytterligare Tutorials
+## Additional Tutorials
 
-- **Tutorial 3**: Lägga till validering med Zod
-- **Tutorial 4**: Implementera pagination
-- **Tutorial 5**: Lägga till caching
+- **Tutorial 3**: Adding validation with Zod
+- **Tutorial 4**: Implementing pagination
+- **Tutorial 5**: Adding caching
 
-[Se fler exempel](/examples)
-
+[See more examples](/examples)

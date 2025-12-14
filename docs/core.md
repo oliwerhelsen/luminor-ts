@@ -3,45 +3,45 @@ layout: default
 title: Core
 ---
 
-# Core - DI Container och Hono Integration
+# Core - DI Container and Hono Integration
 
-Core-modulen innehåller grundläggande funktionalitet för Dependency Injection och Hono app setup.
+The Core module contains basic functionality for Dependency Injection and Hono app setup.
 
 ## Container - Dependency Injection
 
-Luminor använder tsyringe för Dependency Injection. Container-klassen ger en enkel API för att registrera och hämta dependencies.
+Luminor uses tsyringe for Dependency Injection. The Container class provides a simple API for registering and retrieving dependencies.
 
-### Grundläggande användning
+### Basic Usage
 
 ```typescript
 import { Container } from 'luminor';
 import { Logger } from 'luminor';
 
-// Registrera en service
+// Register a service
 Container.register('Logger', () => new Logger(LogLevel.INFO));
 
-// Hämta en service
+// Retrieve a service
 const logger = Container.get<Logger>('Logger');
 ```
 
 ### Singleton Services
 
-För att registrera en service som singleton:
+To register a service as singleton:
 
 ```typescript
 Container.register('Database', () => getDatabase(), { singleton: true });
 ```
 
-### Registrera Instanser
+### Register Instances
 
-Du kan också registrera direkta instanser:
+You can also register direct instances:
 
 ```typescript
 const logger = new Logger(LogLevel.DEBUG);
 Container.registerInstance('Logger', logger);
 ```
 
-### Exempel: Registrera en Repository
+### Example: Register a Repository
 
 ```typescript
 import { Container } from 'luminor';
@@ -54,9 +54,9 @@ Container.register('UserRepository', () => {
 
 ## AppFactory - Hono App Setup
 
-AppFactory skapar en Hono-app med DI-integration och error handling.
+AppFactory creates a Hono app with DI integration and error handling.
 
-### Grundläggande användning
+### Basic Usage
 
 ```typescript
 import { AppFactory } from 'luminor';
@@ -64,7 +64,7 @@ import { AppFactory } from 'luminor';
 const app = AppFactory.create();
 ```
 
-### Anpassad Error Handling
+### Custom Error Handling
 
 ```typescript
 import { AppFactory } from 'luminor';
@@ -88,20 +88,20 @@ const app = AppFactory.create({
 
 ### DI Context Injection
 
-Hono context injiceras automatiskt i DI container för varje request:
+Hono context is automatically injected into the DI container for each request:
 
 ```typescript
 import { Container } from 'luminor';
 import type { Context } from 'hono';
 
 app.use('*', async (c, next) => {
-  // Context är tillgänglig i DI container
+  // Context is available in DI container
   const context = Container.get<Context>('HonoContext');
   await next();
 });
 ```
 
-## Komplett Exempel
+## Complete Example
 
 ```typescript
 import 'reflect-metadata';
@@ -126,8 +126,7 @@ app.get('/', (c) => {
 serve({ fetch: app.fetch, port: 3000 });
 ```
 
-## Nästa steg
+## Next Steps
 
-- [Infrastructure](/infrastructure) - Database, Auth och Logging
-- [Domain & Application](/domain-application) - Entities och Use Cases
-
+- [Infrastructure](/infrastructure) - Database, Auth and Logging
+- [Domain & Application](/domain-application) - Entities and Use Cases
