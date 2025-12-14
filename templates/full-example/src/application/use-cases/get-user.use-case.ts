@@ -1,7 +1,7 @@
-import { injectable } from 'tsyringe';
-import { UseCase } from 'luminor';
-import { User } from '../../domain/user.entity.js';
-import { UserRepository } from '../../infrastructure/repositories/user.repository.js';
+import { UseCase } from "brewy";
+import { injectable } from "tsyringe";
+import { User } from "../../domain/user.entity.js";
+import { UserRepository } from "../../infrastructure/repositories/user.repository.js";
 
 @injectable()
 export class GetUserUseCase implements UseCase<string, User> {
@@ -11,10 +11,9 @@ export class GetUserUseCase implements UseCase<string, User> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     return user;
   }
 }
-

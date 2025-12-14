@@ -5,7 +5,7 @@ title: Tutorials
 
 # Tutorials
 
-Step-by-step guides for building applications with Luminor.
+Step-by-step guides for building applications with brewy.
 
 ## Tutorial 1: Creating a Simple Todo API
 
@@ -14,7 +14,7 @@ In this tutorial, we'll build a simple Todo API with CRUD operations.
 ### Step 1: Create Project
 
 ```bash
-luminor create-app todo-api
+brewy create-app todo-api
 cd todo-api
 npm install
 ```
@@ -24,7 +24,7 @@ npm install
 Create `src/domain/todo.entity.ts`:
 
 ```typescript
-import { BaseEntity } from 'luminor';
+import { BaseEntity } from "brewy";
 
 export class Todo extends BaseEntity {
   private _title: string;
@@ -66,14 +66,14 @@ export class Todo extends BaseEntity {
 Update `src/infrastructure/database/schema.ts`:
 
 ```typescript
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
-export const todos = sqliteTable('todos', {
-  id: text('id').primaryKey(),
-  title: text('title').notNull(),
-  completed: integer('completed', { mode: 'boolean' }).notNull().default(false),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+export const todos = sqliteTable("todos", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  completed: integer("completed", { mode: "boolean" }).notNull().default(false),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
 ```
 
@@ -82,12 +82,12 @@ export const todos = sqliteTable('todos', {
 Create `src/infrastructure/repositories/todo.repository.ts`:
 
 ```typescript
-import { injectable } from 'tsyringe';
-import { eq } from 'drizzle-orm';
-import { Repository } from 'luminor';
-import { Todo } from '../../domain/todo.entity.js';
-import { getDatabase } from '../database/database.js';
-import { todos } from '../database/schema.js';
+import { injectable } from "tsyringe";
+import { eq } from "drizzle-orm";
+import { Repository } from "brewy";
+import { Todo } from "../../domain/todo.entity.js";
+import { getDatabase } from "../database/database.js";
+import { todos } from "../database/schema.js";
 
 @injectable()
 export class TodoRepository implements Repository<Todo> {
@@ -108,27 +108,30 @@ export class TodoRepository implements Repository<Todo> {
   async findAll(): Promise<Todo[]> {
     const db = await getDatabase();
     const results = await db.select().from(todos);
-    return results.map(row => 
-      new Todo(row.title, Boolean(row.completed), row.id)
+    return results.map(
+      (row) => new Todo(row.title, Boolean(row.completed), row.id)
     );
   }
 
   async save(entity: Todo): Promise<Todo> {
     const db = await getDatabase();
-    await db.insert(todos).values({
-      id: entity.id,
-      title: entity.title,
-      completed: entity.completed,
-      createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
-    }).onConflictDoUpdate({
-      target: todos.id,
-      set: {
+    await db
+      .insert(todos)
+      .values({
+        id: entity.id,
         title: entity.title,
         completed: entity.completed,
+        createdAt: entity.createdAt,
         updatedAt: entity.updatedAt,
-      },
-    });
+      })
+      .onConflictDoUpdate({
+        target: todos.id,
+        set: {
+          title: entity.title,
+          completed: entity.completed,
+          updatedAt: entity.updatedAt,
+        },
+      });
     return entity;
   }
 
@@ -148,10 +151,10 @@ export class TodoRepository implements Repository<Todo> {
 Create `src/application/use-cases/create-todo.use-case.ts`:
 
 ```typescript
-import { injectable } from 'tsyringe';
-import { UseCase } from 'luminor';
-import { Todo } from '../../domain/todo.entity.js';
-import { TodoRepository } from '../../infrastructure/repositories/todo.repository.js';
+import { injectable } from "tsyringe";
+import { UseCase } from "brewy";
+import { Todo } from "../../domain/todo.entity.js";
+import { TodoRepository } from "../../infrastructure/repositories/todo.repository.js";
 
 export interface CreateTodoDto {
   title: string;
@@ -171,10 +174,10 @@ export class CreateTodoUseCase implements UseCase<CreateTodoDto, Todo> {
 Create `src/application/use-cases/list-todos.use-case.ts`:
 
 ```typescript
-import { injectable } from 'tsyringe';
-import { UseCase } from 'luminor';
-import { Todo } from '../../domain/todo.entity.js';
-import { TodoRepository } from '../../infrastructure/repositories/todo.repository.js';
+import { injectable } from "tsyringe";
+import { UseCase } from "brewy";
+import { Todo } from "../../domain/todo.entity.js";
+import { TodoRepository } from "../../infrastructure/repositories/todo.repository.js";
 
 @injectable()
 export class ListTodosUseCase implements UseCase<void, Todo[]> {
@@ -191,54 +194,59 @@ export class ListTodosUseCase implements UseCase<void, Todo[]> {
 Create `src/presentation/api/todo.routes.ts`:
 
 ```typescript
-import { Hono } from 'hono';
-import { Container } from 'luminor';
-import { CreateTodoUseCase } from '../../application/use-cases/create-todo.use-case.js';
-import { ListTodosUseCase } from '../../application/use-cases/list-todos.use-case.js';
-import { TodoRepository } from '../../infrastructure/repositories/todo.repository.js';
+import { Hono } from "hono";
+import { Container } from "brewy";
+import { CreateTodoUseCase } from "../../application/use-cases/create-todo.use-case.js";
+import { ListTodosUseCase } from "../../application/use-cases/list-todos.use-case.js";
+import { TodoRepository } from "../../infrastructure/repositories/todo.repository.js";
 
 // Register dependencies
-Container.register('TodoRepository', () => new TodoRepository());
-Container.register('CreateTodoUseCase', () => {
-  const repo = Container.get<TodoRepository>('TodoRepository');
+Container.register("TodoRepository", () => new TodoRepository());
+Container.register("CreateTodoUseCase", () => {
+  const repo = Container.get<TodoRepository>("TodoRepository");
   return new CreateTodoUseCase(repo);
 });
-Container.register('ListTodosUseCase', () => {
-  const repo = Container.get<TodoRepository>('TodoRepository');
+Container.register("ListTodosUseCase", () => {
+  const repo = Container.get<TodoRepository>("TodoRepository");
   return new ListTodosUseCase(repo);
 });
 
 const todoRoutes = new Hono();
 
-todoRoutes.post('/', async (c) => {
+todoRoutes.post("/", async (c) => {
   try {
     const body = await c.req.json();
-    const useCase = Container.get<CreateTodoUseCase>('CreateTodoUseCase');
+    const useCase = Container.get<CreateTodoUseCase>("CreateTodoUseCase");
     const todo = await useCase.execute(body);
-    
-    return c.json({
-      id: todo.id,
-      title: todo.title,
-      completed: todo.completed,
-      createdAt: todo.createdAt,
-    }, 201);
+
+    return c.json(
+      {
+        id: todo.id,
+        title: todo.title,
+        completed: todo.completed,
+        createdAt: todo.createdAt,
+      },
+      201
+    );
   } catch (error: any) {
     return c.json({ error: { message: error.message } }, 400);
   }
 });
 
-todoRoutes.get('/', async (c) => {
+todoRoutes.get("/", async (c) => {
   try {
-    const useCase = Container.get<ListTodosUseCase>('ListTodosUseCase');
+    const useCase = Container.get<ListTodosUseCase>("ListTodosUseCase");
     const todos = await useCase.execute();
-    
-    return c.json(todos.map(todo => ({
-      id: todo.id,
-      title: todo.title,
-      completed: todo.completed,
-      createdAt: todo.createdAt,
-      updatedAt: todo.updatedAt,
-    })));
+
+    return c.json(
+      todos.map((todo) => ({
+        id: todo.id,
+        title: todo.title,
+        completed: todo.completed,
+        createdAt: todo.createdAt,
+        updatedAt: todo.updatedAt,
+      }))
+    );
   } catch (error: any) {
     return c.json({ error: { message: error.message } }, 500);
   }
@@ -252,18 +260,18 @@ export { todoRoutes };
 Update `src/index.ts`:
 
 ```typescript
-import 'reflect-metadata';
-import { AppFactory } from 'luminor';
-import { serve } from '@hono/node-server';
-import { getDatabase } from './infrastructure/database/database.js';
-import { todoRoutes } from './presentation/api/todo.routes.js';
+import "reflect-metadata";
+import { AppFactory } from "brewy";
+import { serve } from "@hono/node-server";
+import { getDatabase } from "./infrastructure/database/database.js";
+import { todoRoutes } from "./presentation/api/todo.routes.js";
 
 await getDatabase();
 
 const app = AppFactory.create();
-app.route('/api/todos', todoRoutes);
+app.route("/api/todos", todoRoutes);
 
-const port = parseInt(process.env.PORT || '3000');
+const port = parseInt(process.env.PORT || "3000");
 serve({ fetch: app.fetch, port });
 ```
 
@@ -286,7 +294,7 @@ Test with curl:
 # Create todo
 curl -X POST http://localhost:3000/api/todos \
   -H "Content-Type: application/json" \
-  -d '{"title": "Learn Luminor"}'
+  -d '{"title": "Learn brewy"}'
 
 # List todos
 curl http://localhost:3000/api/todos
@@ -301,13 +309,13 @@ In this tutorial, we'll add JWT authentication to our Todo API.
 Update `src/index.ts`:
 
 ```typescript
-import { Container } from 'luminor';
-import { AuthService } from 'luminor';
+import { Container } from "brewy";
+import { AuthService } from "brewy";
 
-Container.register('AuthService', () => {
+Container.register("AuthService", () => {
   return new AuthService({
-    secret: process.env.JWT_SECRET || 'your-secret-key',
-    expiresIn: '7d',
+    secret: process.env.JWT_SECRET || "your-secret-key",
+    expiresIn: "7d",
   });
 });
 ```
@@ -317,30 +325,30 @@ Container.register('AuthService', () => {
 Add to `src/presentation/api/auth.routes.ts`:
 
 ```typescript
-import { Hono } from 'hono';
-import { Container } from 'luminor';
-import { AuthService } from 'luminor';
-import { UserRepository } from '../../infrastructure/repositories/user.repository.js';
+import { Hono } from "hono";
+import { Container } from "brewy";
+import { AuthService } from "brewy";
+import { UserRepository } from "../../infrastructure/repositories/user.repository.js";
 
 const authRoutes = new Hono();
 
-authRoutes.post('/login', async (c) => {
+authRoutes.post("/login", async (c) => {
   const { email, password } = await c.req.json();
-  
+
   // Get user (implement your own verification)
-  const userRepo = Container.get<UserRepository>('UserRepository');
+  const userRepo = Container.get<UserRepository>("UserRepository");
   const user = await userRepo.findByEmail(email);
-  
+
   if (!user || !verifyPassword(password, user.passwordHash)) {
-    return c.json({ error: 'Invalid credentials' }, 401);
+    return c.json({ error: "Invalid credentials" }, 401);
   }
-  
-  const authService = Container.get<AuthService>('AuthService');
+
+  const authService = Container.get<AuthService>("AuthService");
   const token = authService.generateToken({
     userId: user.id,
     email: user.email,
   });
-  
+
   return c.json({ token });
 });
 
@@ -352,13 +360,13 @@ export { authRoutes };
 Update `src/presentation/api/todo.routes.ts`:
 
 ```typescript
-import { authMiddleware } from 'luminor';
+import { authMiddleware } from "brewy";
 
 // Protect all routes
-todoRoutes.use('*', authMiddleware());
+todoRoutes.use("*", authMiddleware());
 
 // Now all routes require authentication
-todoRoutes.post('/', async (c) => {
+todoRoutes.post("/", async (c) => {
   // c.user is available here
   const userId = c.user?.userId;
   // ...

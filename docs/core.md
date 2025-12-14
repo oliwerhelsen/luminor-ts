@@ -9,19 +9,19 @@ The Core module contains basic functionality for Dependency Injection and Hono a
 
 ## Container - Dependency Injection
 
-Luminor uses tsyringe for Dependency Injection. The Container class provides a simple API for registering and retrieving dependencies.
+brewy uses tsyringe for Dependency Injection. The Container class provides a simple API for registering and retrieving dependencies.
 
 ### Basic Usage
 
 ```typescript
-import { Container } from 'luminor';
-import { Logger } from 'luminor';
+import { Container } from "brewy";
+import { Logger } from "brewy";
 
 // Register a service
-Container.register('Logger', () => new Logger(LogLevel.INFO));
+Container.register("Logger", () => new Logger(LogLevel.INFO));
 
 // Retrieve a service
-const logger = Container.get<Logger>('Logger');
+const logger = Container.get<Logger>("Logger");
 ```
 
 ### Singleton Services
@@ -29,7 +29,7 @@ const logger = Container.get<Logger>('Logger');
 To register a service as singleton:
 
 ```typescript
-Container.register('Database', () => getDatabase(), { singleton: true });
+Container.register("Database", () => getDatabase(), { singleton: true });
 ```
 
 ### Register Instances
@@ -38,16 +38,16 @@ You can also register direct instances:
 
 ```typescript
 const logger = new Logger(LogLevel.DEBUG);
-Container.registerInstance('Logger', logger);
+Container.registerInstance("Logger", logger);
 ```
 
 ### Example: Register a Repository
 
 ```typescript
-import { Container } from 'luminor';
-import { UserRepository } from './infrastructure/repositories/user.repository.js';
+import { Container } from "brewy";
+import { UserRepository } from "./infrastructure/repositories/user.repository.js";
 
-Container.register('UserRepository', () => {
+Container.register("UserRepository", () => {
   return new UserRepository();
 });
 ```
@@ -59,7 +59,7 @@ AppFactory creates a Hono app with DI integration and error handling.
 ### Basic Usage
 
 ```typescript
-import { AppFactory } from 'luminor';
+import { AppFactory } from "brewy";
 
 const app = AppFactory.create();
 ```
@@ -67,21 +67,18 @@ const app = AppFactory.create();
 ### Custom Error Handling
 
 ```typescript
-import { AppFactory } from 'luminor';
-import { Logger } from 'luminor';
+import { AppFactory } from "brewy";
+import { Logger } from "brewy";
 
 const app = AppFactory.create({
   errorHandler: (error, c) => {
-    const logger = Container.get<Logger>('Logger');
-    logger.error('Unhandled error', error);
-    
-    return c.json(
-      { error: { message: error.message } },
-      500
-    );
+    const logger = Container.get<Logger>("Logger");
+    logger.error("Unhandled error", error);
+
+    return c.json({ error: { message: error.message } }, 500);
   },
   notFoundHandler: (c) => {
-    return c.json({ error: { message: 'Not Found' } }, 404);
+    return c.json({ error: { message: "Not Found" } }, 404);
   },
 });
 ```
@@ -91,12 +88,12 @@ const app = AppFactory.create({
 Hono context is automatically injected into the DI container for each request:
 
 ```typescript
-import { Container } from 'luminor';
-import type { Context } from 'hono';
+import { Container } from "brewy";
+import type { Context } from "hono";
 
-app.use('*', async (c, next) => {
+app.use("*", async (c, next) => {
   // Context is available in DI container
-  const context = Container.get<Context>('HonoContext');
+  const context = Container.get<Context>("HonoContext");
   await next();
 });
 ```
@@ -104,22 +101,22 @@ app.use('*', async (c, next) => {
 ## Complete Example
 
 ```typescript
-import 'reflect-metadata';
-import { Container } from 'luminor';
-import { AppFactory } from 'luminor';
-import { Logger, LogLevel } from 'luminor';
+import "reflect-metadata";
+import { Container } from "brewy";
+import { AppFactory } from "brewy";
+import { Logger, LogLevel } from "brewy";
 
 // Setup DI
-Container.register('Logger', () => new Logger(LogLevel.INFO));
+Container.register("Logger", () => new Logger(LogLevel.INFO));
 
 // Create app
 const app = AppFactory.create();
 
 // Routes
-app.get('/', (c) => {
-  const logger = Container.get<Logger>('Logger');
-  logger.info('Home page accessed');
-  return c.json({ message: 'Hello from Luminor!' });
+app.get("/", (c) => {
+  const logger = Container.get<Logger>("Logger");
+  logger.info("Home page accessed");
+  return c.json({ message: "Hello from brewy!" });
 });
 
 // Start server

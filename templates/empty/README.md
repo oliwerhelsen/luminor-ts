@@ -1,27 +1,31 @@
 # {{PROJECT_NAME}}
 
-Luminor application with {{DATABASE_TYPE}} database.
+brewy application with {{DATABASE_TYPE}} database.
 
 ## Getting Started
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Set up environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 3. Run database migrations:
+
 ```bash
 npm run db:generate
 npm run db:migrate
 ```
 
 4. Start development server:
+
 ```bash
 npm run dev
 ```
@@ -41,4 +45,3 @@ npm run dev
 - `npm run db:generate` - Generate database migrations
 - `npm run db:migrate` - Run database migrations
 - `npm run db:studio` - Open Drizzle Studio
-

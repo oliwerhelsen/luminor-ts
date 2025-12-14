@@ -1,8 +1,8 @@
-# Luminor
+# brewy
 
 **Enterprise Hono framework with DDD, Dependency Injection, and Drizzle ORM**
 
-Luminor is a powerful and flexible framework for building enterprise applications with Hono. It combines best practices from Domain-Driven Design (DDD), Dependency Injection with tsyringe, and Drizzle ORM for database management.
+brewy is a powerful and flexible framework for building enterprise applications with Hono. It combines best practices from Domain-Driven Design (DDD), Dependency Injection with tsyringe, and Drizzle ORM for database management.
 
 ## Features
 
@@ -17,20 +17,20 @@ Luminor is a powerful and flexible framework for building enterprise application
 ## Installation
 
 ```bash
-npm install -g luminor
+npm install -g brewy
 ```
 
 Or use npx:
 
 ```bash
-npx luminor create-app my-project
+npx brewy create-app my-project
 ```
 
 ## Quick Start
 
 ```bash
 # Create new project
-luminor create-app my-project
+brewy create-app my-project
 
 cd my-project
 npm install
@@ -39,16 +39,16 @@ npm run dev
 
 ## Documentation
 
-Full documentation available at: [https://your-username.github.io/luminor-ts](https://your-username.github.io/luminor-ts)
+Full documentation available at: [https://your-username.github.io/brewy-ts](https://your-username.github.io/brewy-ts)
 
-- [Getting Started](https://your-username.github.io/luminor-ts/getting-started)
-- [Core](https://your-username.github.io/luminor-ts/core)
-- [Infrastructure](https://your-username.github.io/luminor-ts/infrastructure)
-- [Tutorials](https://your-username.github.io/luminor-ts/tutorials)
+- [Getting Started](https://your-username.github.io/brewy-ts/getting-started)
+- [Core](https://your-username.github.io/brewy-ts/core)
+- [Infrastructure](https://your-username.github.io/brewy-ts/infrastructure)
+- [Tutorials](https://your-username.github.io/brewy-ts/tutorials)
 
 ## Project Structure
 
-Luminor follows DDD principles and organizes code in layers:
+brewy follows DDD principles and organizes code in layers:
 
 ```
 src/

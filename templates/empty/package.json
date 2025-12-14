@@ -19,7 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "reflect-metadata": "^0.1.14",
     "@hono/node-server": "^1.8.0",
-    "luminor": "*"
+    "brewy": "*"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
@@ -28,4 +28,3 @@
     "tsx": "^4.7.0"
   }
 }
-

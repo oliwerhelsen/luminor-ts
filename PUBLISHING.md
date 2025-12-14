@@ -1,14 +1,16 @@
 # Publishing to npm
 
-This guide describes how to publish Luminor to npm.
+This guide describes how to publish brewy to npm.
 
 ## Prerequisites
 
 1. **npm account**
+
    - Create account at https://www.npmjs.com/signup
    - Verify email address
 
 2. **npm access token**
+
    - Log in to npm
    - Go to: https://www.npmjs.com/settings/[your-username]/tokens
    - Click "Generate New Token"
@@ -22,13 +24,14 @@ This guide describes how to publish Luminor to npm.
 
 3. **Package name**
    - Check that the package name in `package.json` is unique
-   - If `luminor` is already taken, change to e.g. `@your-username/luminor` or `luminor-framework`
+   - If `brewy` is already taken, change to e.g. `@your-username/brewy` or `brewy-framework`
 
 ## Publishing
 
 ### Method 1: Automatic via GitHub Release
 
 1. Bump version locally:
+
    ```bash
    npm version patch  # or minor, major
    git push
@@ -71,10 +74,12 @@ npm publish --access public
 ## Troubleshooting
 
 ### "NPM_TOKEN secret is not set"
+
 - Add `NPM_TOKEN` to repository secrets
 - See instructions above
 
 ### "Version already exists on npm"
+
 - Version already exists on npm
 - Bump version first:
   ```bash
@@ -84,20 +89,24 @@ npm publish --access public
   ```
 
 ### "Package name already taken"
+
 - Package name is already taken
 - Change `name` in `package.json` to something unique
-- E.g. `@your-username/luminor`
+- E.g. `@your-username/brewy`
 
 ### "You do not have permission to publish"
+
 - You are not logged in to npm
 - Run: `npm login`
 - Or check that NPM_TOKEN is correct
 
 ### "Invalid token"
+
 - NPM_TOKEN is wrong or expired
 - Create a new token and update secret
 
 ### Workflow doesn't run
+
 - Check that workflow file is correct
 - Check that you're pushing to the right branch
 - Check Actions tab for error messages
@@ -108,21 +117,22 @@ After publishing, you can verify:
 
 ```bash
 # Check if package exists
-npm view luminor
+npm view brewy
 
 # Check specific version
-npm view luminor@0.1.0
+npm view brewy@0.1.0
 
 # Install and test
-npm install -g luminor
-luminor --version
+npm install -g brewy
+brewy --version
 ```
 
-Or visit: https://www.npmjs.com/package/luminor
+Or visit: https://www.npmjs.com/package/brewy
 
 ## Version Management
 
 Follow [Semantic Versioning](https://semver.org/):
+
 - **PATCH** (0.1.0 → 0.1.1): Bugfixes
 - **MINOR** (0.1.0 → 0.2.0): New features (backward compatible)
 - **MAJOR** (0.1.0 → 1.0.0): Breaking changes

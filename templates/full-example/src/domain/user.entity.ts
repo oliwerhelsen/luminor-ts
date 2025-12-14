@@ -1,4 +1,4 @@
-import { BaseEntity } from 'luminor';
+import { BaseEntity } from "brewy";
 
 export class User extends BaseEntity {
   private _email: string;
@@ -34,4 +34,3 @@ export class User extends BaseEntity {
     this.updateTimestamp();
   }
 }
-

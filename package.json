@@ -1,11 +1,11 @@
 {
-  "name": "luminor",
+  "name": "@appbrew/brewy",
   "version": "0.1.0",
-  "description": "Enterprise Hono framework with DDD, Dependency Injection, and Drizzle ORM",
+  "description": "Enterprise framework with DDD, Dependency Injection, and Drizzle ORM",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "luminor": "./bin/luminor.js"
+    "brewy": "./bin/brewy.js"
   },
   "scripts": {
     "build": "tsc",
@@ -78,4 +78,3 @@
     "node": ">=18.0.0"
   }
 }
-

@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Luminor - Enterprise Hono Framework
+title: brewy - Enterprise Hono Framework
 ---
 
-# Luminor
+# brewy
 
 **Enterprise Hono framework with DDD, Dependency Injection, and Drizzle ORM**
 
-Luminor is a powerful and flexible framework for building enterprise applications with Hono. It combines best practices from Domain-Driven Design (DDD), Dependency Injection with tsyringe, and Drizzle ORM for database management.
+brewy is a powerful and flexible framework for building enterprise applications with Hono. It combines best practices from Domain-Driven Design (DDD), Dependency Injection with tsyringe, and Drizzle ORM for database management.
 
 ## Features
 
@@ -23,21 +23,21 @@ Luminor is a powerful and flexible framework for building enterprise application
 
 ```bash
 # Install globally
-npm install -g luminor
+npm install -g brewy
 
 # Create new project
-luminor create-app my-project
+brewy create-app my-project
 ```
 
 Or use npx:
 
 ```bash
-npx luminor create-app my-project
+npx brewy create-app my-project
 ```
 
 ## Project Structure
 
-Luminor follows DDD principles and organizes code in layers:
+brewy follows DDD principles and organizes code in layers:
 
 ```
 src/
@@ -56,4 +56,4 @@ src/
 
 ## GitHub
 
-[View on GitHub](https://github.com/your-username/luminor-ts)
+[View on GitHub](https://github.com/your-username/brewy-ts)

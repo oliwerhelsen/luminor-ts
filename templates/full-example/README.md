@@ -1,27 +1,31 @@
 # {{PROJECT_NAME}}
 
-Full example Luminor application with {{DATABASE_TYPE}} database.
+Full example brewy application with {{DATABASE_TYPE}} database.
 
 ## Getting Started
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Set up environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 3. Run database migrations:
+
 ```bash
 npm run db:generate
 npm run db:migrate
 ```
 
 4. Start development server:
+
 ```bash
 npm run dev
 ```
@@ -59,6 +63,7 @@ This full example includes:
 ## Testing
 
 Run tests with:
+
 ```bash
 npm test
 ```
@@ -72,4 +77,3 @@ npm test
 - `npm run db:migrate` - Run database migrations
 - `npm run db:studio` - Open Drizzle Studio
 - `npm test` - Run tests
-

@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-</head>
-<body>
-  <nav>
-    <a href="{{ '/' | relative_url }}">Home</a>
-    <a href="{{ '/getting-started' | relative_url }}">Getting Started</a>
-    <a href="{{ '/core' | relative_url }}">Core</a>
-    <a href="{{ '/infrastructure' | relative_url }}">Infrastructure</a>
-    <a href="{{ '/domain-application' | relative_url }}">Domain & Application</a>
-    <a href="{{ '/tutorials' | relative_url }}">Tutorials</a>
-    <a href="{{ '/examples' | relative_url }}">Examples</a>
-  </nav>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}
+    </title>
+    <meta
+      name="description"
+      content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/style.css' | relative_url }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/getting-started' | relative_url }}">Getting Started</a>
+      <a href="{{ '/core' | relative_url }}">Core</a>
+      <a href="{{ '/infrastructure' | relative_url }}">Infrastructure</a>
+      <a href="{{ '/domain-application' | relative_url }}"
+        >Domain & Application</a
+      >
+      <a href="{{ '/tutorials' | relative_url }}">Tutorials</a>
+      <a href="{{ '/examples' | relative_url }}">Examples</a>
+    </nav>
 
-  <main>
-    {{ content }}
-  </main>
+    <main>{{ content }}</main>
 
-  <footer class="footer">
-    <p>Luminor - Enterprise Hono Framework</p>
-    <p><a href="https://github.com/your-username/luminor-ts">GitHub</a></p>
-  </footer>
-</body>
+    <footer class="footer">
+      <p>brewy - Enterprise Hono Framework</p>
+      <p><a href="https://github.com/your-username/brewy-ts">GitHub</a></p>
+    </footer>
+  </body>
 </html>

@@ -1,19 +1,17 @@
-import 'reflect-metadata';
-import { Hono } from 'hono';
-import { AppFactory } from 'luminor';
-import { serve } from '@hono/node-server';
+import { serve } from "@hono/node-server";
+import { AppFactory } from "brewy";
+import "reflect-metadata";
 
 const app = AppFactory.create();
 
-app.get('/', (c) => {
-  return c.json({ message: 'Hello from Luminor!' });
+app.get("/", (c) => {
+  return c.json({ message: "Hello from brewy!" });
 });
 
-const port = parseInt(process.env.PORT || '3000');
+const port = parseInt(process.env.PORT || "3000");
 console.log(`🚀 Server is running on http://localhost:${port}`);
 
 serve({
   fetch: app.fetch,
   port,
 });
-
