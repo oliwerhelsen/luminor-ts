@@ -134,7 +134,24 @@ Creates a Hono router with:
 - Use case integration
 - DTO validation placeholders
 
-**Note:** The old `controller` command is deprecated. Use `routes` instead to follow Hono best practices.
+**Why inline handlers?** Following Hono best practices, route handlers should be defined inline rather than as separate functions. This enables TypeScript to properly infer path parameter types:
+
+```typescript
+// ✅ Good - Type inference works
+userRoutes.get('/:id', async (c) => {
+  const id = c.req.param('id'); // Type is inferred correctly!
+  return c.json({ id });
+});
+
+// ❌ Bad - Type inference doesn't work
+const getUser = (c: Context) => {
+  const id = c.req.param('id'); // Can't infer the path param type
+  return c.json({ id });
+};
+userRoutes.get('/:id', getUser);
+```
+
+**Note:** The old `controller` command is deprecated. Use `routes` instead.
 
 ### DTO
 

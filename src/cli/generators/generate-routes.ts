@@ -22,6 +22,13 @@ import { Container } from 'brewy';
 // import { CreateUserDto } from '../application/dtos/create-user.dto.js';
 // import { validateJson } from 'brewy';
 
+/**
+ * ${name} Routes
+ * 
+ * Following Hono best practices, handlers are defined inline to enable proper
+ * type inference for path parameters. This avoids the RoR-like controller pattern
+ * where path parameters cannot be inferred correctly.
+ */
 export const ${name}Routes = new Hono();
 
 // GET /${routePath}
