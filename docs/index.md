@@ -44,7 +44,7 @@ src/
 ├── domain/          # Domain layer (entities, value objects)
 ├── application/     # Application layer (use cases, DTOs)
 ├── infrastructure/  # Infrastructure layer (repositories, external services)
-└── presentation/    # Presentation layer (Hono routes, controllers)
+└── presentation/    # Presentation layer (Hono routes with inline handlers)
 ```
 
 ## Next Steps

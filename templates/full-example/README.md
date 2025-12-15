@@ -40,7 +40,7 @@ npm run dev
 - `src/infrastructure/` - Infrastructure layer (repositories, database)
   - `database/` - Drizzle setup and schema
   - `repositories/` - Repository implementations
-- `src/presentation/` - Presentation layer (routes, controllers)
+- `src/presentation/` - Presentation layer (API routes with inline handlers)
   - `api/` - API routes
 
 ## Example Features

@@ -23,7 +23,7 @@ export async function generateModule(name: string | undefined): Promise<void> {
     "application/use-cases",
     "application/dtos",
     "infrastructure/repositories",
-    "presentation/controllers",
+    "presentation/routes",
   ];
 
   for (const dir of dirs) {
@@ -52,7 +52,7 @@ This module follows DDD principles with the following structure:
 - \`infrastructure/repositories/\` - Repository implementations
 
 ## Presentation Layer
-- \`presentation/controllers/\` - HTTP controllers and routes
+- \`presentation/routes/\` - HTTP routes with inline handlers
 
 ## Usage
 
@@ -63,7 +63,7 @@ brewy generate:entity <name>
 brewy generate:value-object <name>
 brewy generate:repository <name>
 brewy generate:use-case <name>
-brewy generate:controller <name>
+brewy generate:routes <name>
 brewy generate:dto <name>
 \`\`\`
 `;
@@ -83,10 +83,10 @@ brewy generate:dto <name>
   console.log(chalk.gray(`    ├── infrastructure/`));
   console.log(chalk.gray(`    │   └── repositories/`));
   console.log(chalk.gray(`    └── presentation/`));
-  console.log(chalk.gray(`        └── controllers/`));
+  console.log(chalk.gray(`        └── routes/`));
 
   console.log(chalk.cyan("\nNext steps:"));
   console.log(chalk.white(`  1. Generate entities: brewy g entity <name>`));
   console.log(chalk.white(`  2. Generate use cases: brewy g use-case <name>`));
-  console.log(chalk.white(`  3. Generate controllers: brewy g controller <name>`));
+  console.log(chalk.white(`  3. Generate routes: brewy g routes <name>`));
 }
