@@ -16,7 +16,7 @@ This document summarizes the implementation of all MVP features for the Brewy fr
 - `brewy generate:value-object <name>` - Generates domain value object
 - `brewy generate:repository <name>` - Generates repository interface + implementation
 - `brewy generate:use-case <name>` - Generates application use case
-- `brewy generate:controller <name>` - Generates presentation controller
+- `brewy generate:routes <name>` - Generates presentation routes with inline handlers
 - `brewy generate:dto <name>` - Generates Zod DTO schema
 - `brewy generate:middleware <name>` - Generates middleware
 

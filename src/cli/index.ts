@@ -8,6 +8,7 @@ import { generateValueObject } from "./generators/generate-value-object.js";
 import { generateRepository } from "./generators/generate-repository.js";
 import { generateUseCase } from "./generators/generate-use-case.js";
 import { generateController } from "./generators/generate-controller.js";
+import { generateRoutes } from "./generators/generate-routes.js";
 import { generateDto } from "./generators/generate-dto.js";
 import { generateMiddleware } from "./generators/generate-middleware.js";
 
@@ -44,8 +45,13 @@ async function main() {
       case "uc":
         await generateUseCase(name);
         break;
+      case "routes":
+        await generateRoutes(name);
+        break;
       case "controller":
       case "ctrl":
+        console.log(chalk.yellow("⚠️  'controller' is deprecated. Use 'routes' instead."));
+        console.log(chalk.gray("   brewy g routes <name>\n"));
         await generateController(name);
         break;
       case "dto":
@@ -89,9 +95,10 @@ function showGenerateHelp() {
   console.log(chalk.gray("  value-object, vo                Generate domain value object"));
   console.log(chalk.gray("  repository, repo                Generate repository interface + implementation"));
   console.log(chalk.gray("  use-case, uc                    Generate application use case"));
-  console.log(chalk.gray("  controller, ctrl                Generate presentation controller"));
+  console.log(chalk.gray("  routes                          Generate presentation routes"));
   console.log(chalk.gray("  dto                             Generate Zod DTO schema"));
   console.log(chalk.gray("  middleware, mw                  Generate middleware"));
+  console.log(chalk.dim("  controller, ctrl                [DEPRECATED] Use 'routes' instead"));
 }
 
 main().catch((error) => {

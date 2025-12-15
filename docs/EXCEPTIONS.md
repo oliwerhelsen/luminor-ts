@@ -373,9 +373,9 @@ export class UserRepositoryImpl {
 }
 ```
 
-### In Controllers
+### In Routes
 
-Controllers don't need explicit error handling - ExceptionFilter handles it:
+Routes don't need explicit error handling - ExceptionFilter handles it:
 
 ```typescript
 import { Hono } from 'hono';
@@ -427,7 +427,7 @@ const app = AppFactory.create({
 1. **Throw domain exceptions in entities**: Keep business rules in the domain layer
 2. **Catch and wrap in use cases**: Catch domain exceptions and add context
 3. **Let infrastructure fail**: Don't catch infrastructure exceptions, let them bubble up
-4. **Don't catch in controllers**: Let ExceptionFilter handle all exceptions
+4. **Don't catch in routes**: Let ExceptionFilter handle all exceptions
 5. **Use specific exceptions**: Don't use generic `Error`, use typed exceptions
 6. **Provide context**: Include relevant details (field names, entity IDs, etc.)
 7. **Log errors**: Use Logger for error logging at appropriate levels
@@ -476,7 +476,7 @@ class UpdateUserNameUseCase {
   }
 }
 
-// Controller
+// Route handler
 app.put('/users/:id/name', validateJson(UpdateNameDto), async (c) => {
   const useCase = Container.get<UpdateUserNameUseCase>('UpdateUserNameUseCase');
   const { name } = c.req.valid('json');

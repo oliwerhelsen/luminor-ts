@@ -61,7 +61,7 @@ src/modules/user/
 ├── infrastructure/
 │   └── repositories/
 └── presentation/
-    └── controllers/
+    └── routes/
 ```
 
 ### Entity
@@ -120,19 +120,38 @@ Creates a use case class with:
 - Execute method
 - Exception handling
 
-### Controller
+### Routes
 
-Generate a presentation controller.
+Generate presentation routes with inline handlers.
 
 ```bash
-brewy g controller user
-brewy g ctrl user  # shorthand
+brewy g routes user
 ```
 
 Creates a Hono router with:
 - CRUD routes (GET, POST, PUT, DELETE)
+- Inline handlers for proper type inference
 - Use case integration
 - DTO validation placeholders
+
+**Why inline handlers?** Following Hono best practices, route handlers should be defined inline rather than as separate functions. This enables TypeScript to properly infer path parameter types:
+
+```typescript
+// ✅ Good - Type inference works
+userRoutes.get('/:id', async (c) => {
+  const id = c.req.param('id'); // Type is inferred correctly!
+  return c.json({ id });
+});
+
+// ❌ Bad - Type inference doesn't work
+const getUser = (c: Context) => {
+  const id = c.req.param('id'); // Can't infer the path param type
+  return c.json({ id });
+};
+userRoutes.get('/:id', getUser);
+```
+
+**Note:** The old `controller` command is deprecated. Use `routes` instead.
 
 ### DTO
 
@@ -192,8 +211,8 @@ brewy g uc create-user
 brewy g uc get-user
 brewy g uc list-users
 
-# Generate controller
-brewy g ctrl user
+# Generate routes
+brewy g routes user
 ```
 
 ### Standalone Components (No Modules)
@@ -211,7 +230,7 @@ brewy g uc create-product
 
 1. **Naming Convention**: Use kebab-case for names (e.g., `create-user`, `user-profile`)
 2. **Module First**: Create a module before generating components within it
-3. **DTO Validation**: Always create DTOs before controllers for proper validation
+3. **DTO Validation**: Always create DTOs before routes for proper validation
 4. **Repository Pattern**: Generate repository before use cases that need it
 
 ## Next Steps

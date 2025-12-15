@@ -60,7 +60,7 @@ brewy g entity user              # Domain entity
 brewy g value-object email       # Value object
 brewy g repository user          # Repository interface + implementation
 brewy g use-case create-user     # Application use case
-brewy g controller user          # REST controller
+brewy g routes user              # REST routes with inline handlers
 brewy g dto create-user          # Zod DTO schema
 brewy g middleware auth-check    # Custom middleware
 ```
@@ -86,7 +86,7 @@ src/
 ├── domain/          # Domain layer (entities, value objects, repositories)
 ├── application/     # Application layer (use cases, DTOs)
 ├── infrastructure/  # Infrastructure layer (repositories, external services)
-└── presentation/    # Presentation layer (Hono routes, controllers)
+└── presentation/    # Presentation layer (Hono routes with inline handlers)
 ```
 
 ### Module-based Structure (Optional)

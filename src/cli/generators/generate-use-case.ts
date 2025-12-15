@@ -58,5 +58,5 @@ export class ${className}UseCase implements UseCase<${className}Input, ${classNa
   console.log(chalk.white(`  1. Define input and output types`));
   console.log(chalk.white(`  2. Inject required repositories/services`));
   console.log(chalk.white(`  3. Implement the execute() method`));
-  console.log(chalk.white(`  4. Use in controller`));
+  console.log(chalk.white(`  4. Use in routes`));
 }

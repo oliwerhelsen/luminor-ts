@@ -35,7 +35,7 @@ npm run dev
 - `src/domain/` - Domain layer (entities, value objects)
 - `src/application/` - Application layer (use cases, DTOs)
 - `src/infrastructure/` - Infrastructure layer (repositories, database)
-- `src/presentation/` - Presentation layer (routes, controllers)
+- `src/presentation/` - Presentation layer (API routes with inline handlers)
 
 ## Scripts
 
